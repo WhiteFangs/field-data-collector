@@ -24,37 +24,52 @@
 			<h1>Categories</h1>
 			<div class="action button" v-on:click="page = 'newCategory'">+ Add new category</div>
 			<hr/>
-			<div class="row" v-for="category in categories">
+			<div class="row" v-for="(category, catidx) in categories">
 				<div class="floatRight">
 					<div v-show="!category.confirmDelete" class="icon action button" v-on:click="deleteCategory(category)">❌</div>
 					<div v-show="category.confirmDelete">Delete?
-						<div class="icon action button" v-on:click="deleteCategoryConfirm(category)">Yes</div>
+						<div class="icon action button" v-on:click="deleteCategoryConfirm(catidx)">Yes</div>
 						<div class="icon button" v-on:click="category.confirmDelete = false">No</div>
 					</div>
 				</div>
-				<div class="button">{{category.name}}</div>
+				<div class="button" v-on:click="editCategory(catidx)">{{category.name}}</div>
 			</div>
+		</div>
+		<div class="page" v-show="page == 'category'" v-if="editingCategory != null">
+			<div class="back" v-on:click="page = 'categories'"><</div>
+			<h1>Category: {{categories[editingCategory].name}}</h1>
+			<div class="input">
+				<label>Category name:</label>
+				<input type="text" placeholder="Category1" v-model="categories[editingCategory].name" />
+			</div>
+			<h3>Items {{categories[editingCategory].items.length}}</h3>
+			<div class="row" v-for="(item, itemidx) in categories[editingCategory].items">
+				<div v-show="!item.editing">
+					<div class="floatRight">
+						<div class="icon action button" v-on:click="removeItem(itemidx)">❌</div>
+						<div class="icon action button" v-on:click="editItem(item)">✏️</div>
+					</div>
+					<div class="item">
+						{{item.name}}
+					</div>
+				</div>
+				<div class="segment" v-show="item.editing">
+					<div class="input">
+						<label>Item name:</label>
+						<input type="text" v-on:keyup.enter="item.editing = false" placeholder="Item1" v-model="item.name" />
+					</div>
+					<div class="button" v-on:click="item.editing = false">Save item</div>
+				</div>
+			</div>
+			<div class="button" v-on:click="addItem">Add new item</div>
 		</div>
 		<div class="page" v-show="page == 'newCategory'">
 			<div class="back" v-on:click="page = 'categories'"><</div>
 			<h1>New category</h1>
 			<div class="input">
 				<label>Category name:</label>
-				<input type="text" placeholder="Category1" v-model="newCategory.name" />
+				<input type="text" placeholder="Category1" v-model="newCategoryName" />
 			</div>
-			<h3>Items</h3>
-			<div class="row" v-for="item in newCategory.items">
-				<div v-show="!item.editing">{{item.name}}</div>
-				<div class="segment" v-show="item.editing">
-					<div class="input">
-						<label>Item name:</label>
-						<input type="text" placeholder="Item1" v-model="item.name" />
-					</div>
-					<div class="button" v-on:click="item.editing = false">Save item</div>
-				</div>
-			</div>
-			<div class="button" v-on:click="addNewCategoryItem">Add new item</div>
-			<hr/>
 			<div class="action button" v-on:click="saveNewCategory">Save category</div>
 		</div>
 
@@ -89,6 +104,7 @@
 						<label>Column name:</label>
 						<input type="text" placeholder="Field1" v-model="column.name" />
 					</div>
+					<h4>Column category:</h4>
 					<div class="categories">
 						<div v-for="category in categories" class="button category" v-bind:class="{'selected': column.category == category.name}"v-on:click="column.category = category.name">
 							{{category.name}}

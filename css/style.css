@@ -13,16 +13,24 @@ h1{
 .back{
 	position: absolute;
 	top: 1em;
-	left: 1em;
+	left: .5em;
+	padding: .5em;
+	border: 2px solid blue;
+	background-color: white;
 	font-weight: bold;
 	font-family: Arial, sans-serif;
-	font-size: 1.5em;
+	font-size: 1em;
 	cursor: pointer;
+
 }
 
 .row {
 	margin-top: .5em;
 	margin-bottom: .5em;
+}
+
+.item{
+	padding: 1em;
 }
 
 .segment{

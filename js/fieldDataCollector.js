@@ -5,10 +5,8 @@ new Vue({
       page: "menu",
       models: [],
       categories: [],
-      newCategory:{
-        name : "",
-        items: [],
-      },
+      editingCategory: null,
+      newCategoryName : "",
       newModel: {
         name: "",
         columns: []
@@ -16,24 +14,33 @@ new Vue({
     };
   },
   methods: {
-    deleteCategoryConfirm: function(category){
-      var idx = this.categories.indexOf(category);
-      this.categories.splice(idx, 1);
+    deleteCategoryConfirm: function(catidx){
+      this.categories.splice(catidx, 1);
       this.saveCategories();
     },
     deleteCategory: function(category){
       Vue.set(category, "confirmDelete", true);
     },
-    addNewCategoryItem: function(){
-      this.newCategory.items.push({name: "", editing: true});
+    editCategory: function(catidx){
+      this.editingCategory = catidx;
+      this.page = "category";
+    },
+    addItem: function(){
+      this.categories[this.editingCategory].items.push({name: "", editing: true});
+    },
+    removeItem: function(itemidx){
+      this.categories[this.editingCategory].items.splice(itemidx, 1);
+    },
+    editItem: function(item){
+      Vue.set(item, "editing", true);
     },
     saveNewCategory: function(){
       this.categories.push({
-        name: this.newCategory.name,
-        items: this.newCategory.items
+        name: this.newCategoryName,
+        items: []
       });
       this.saveCategories();
-      this.page = "categories";
+      this.editCategory(this.categories.length - 1);
     },
     deleteModelConfirm: function(model){
       var idx = this.models.indexOf(model);
@@ -77,12 +84,10 @@ new Vue({
         };
       }
       if(oldValue == "newCategory"){
-        this.newCategory= {
-          name : "",
-          items: [],
-          newItem : false,
-          newItemName: ""
-        };
+        this.newCategoryName = "";
+      }
+      if(oldValue == "category"){
+        this.saveCategories();
       }
     }
   },
