@@ -42,14 +42,14 @@
 				<label>Category name:</label>
 				<input type="text" placeholder="Category1" v-model="categories[editingCategory].name" />
 			</div>
-			<h3>Items {{categories[editingCategory].items.length}}</h3>
+			<h3>Items ({{categories[editingCategory].items.length}})</h3>
 			<div class="row" v-for="(item, itemidx) in categories[editingCategory].items">
 				<div v-show="!item.editing">
 					<div class="floatRight">
 						<div class="icon action button" v-on:click="removeItem(itemidx)">❌</div>
 						<div class="icon action button" v-on:click="editItem(item)">✏️</div>
 					</div>
-					<div class="item">
+					<div class="label">
 						{{item.name}}
 					</div>
 				</div>
@@ -68,7 +68,7 @@
 			<h1>New category</h1>
 			<div class="input">
 				<label>Category name:</label>
-				<input type="text" placeholder="Category1" v-model="newCategoryName" />
+				<input type="text" placeholder="Category1" v-on:keyup.enter="saveNewCategory" v-model="newCategoryName" />
 			</div>
 			<div class="action button" v-on:click="saveNewCategory">Save category</div>
 		</div>
@@ -78,31 +78,39 @@
 			<div class="back" v-on:click="page = 'menu'"><</div>
 			<h1>Data models</h1>
 			<div class="action button" v-on:click="page = 'newModel'">+ Add new model</div>
-			<div class="row" v-for="model in models">
+			<div class="row" v-for="(model, modelidx) in models">
 				<div class="floatRight">
 					<div v-show="!model.confirmDelete" class="icon action button" v-on:click="deleteModel(model)">❌</div>
 					<div v-show="model.confirmDelete">Delete?
-						<div class="icon action button" v-on:click="deleteModelConfirm(model)">Yes</div>
+						<div class="icon action button" v-on:click="deleteModelConfirm(modelidx)">Yes</div>
 						<div class="icon button" v-on:click="model.confirmDelete = false">No</div>
 					</div>
 				</div>
-				<div class="button">{{model.name}}</div>
+				<div class="button" v-on:click="editModel(modelidx)">{{model.name}}</div>
 			</div>
 		</div>
-		<div class="page" v-show="page == 'newModel'">
+		<div class="page" v-show="page == 'model'" v-if="editingModel != null">
 			<div class="back" v-on:click="page = 'models'"><</div>
-			<h1>New Data model</h1>
+			<h1>Model: {{models[editingModel].name}}</h1>
 			<div class="input">
 				<label>Model name:</label>
-				<input type="text" placeholder="Data1" v-model="newModel.name" />
+				<input type="text" placeholder="Model1" v-model="models[editingModel].name" />
 			</div>
-			<h3>Columns</h3>
-			<div class="row" v-for="column in newModel.columns">
-				<div v-show="!column.editing">{{column.name}} ({{column.category}})</div>
+			<h3>Columns ({{models[editingModel].columns.length}})</h3>
+			<div class="row" v-for="(column, colidx) in models[editingModel].columns">
+				<div v-show="!column.editing">
+					<div class="floatRight">
+						<div class="icon action button" v-on:click="removeColumn(colidx)">❌</div>
+						<div class="icon action button" v-on:click="editColumn(column)">✏️</div>
+					</div>
+					<div class="label">
+						{{column.name}} ({{column.category}})
+					</div>
+				</div>
 				<div class="segment" v-show="column.editing">
 					<div class="input">
 						<label>Column name:</label>
-						<input type="text" placeholder="Field1" v-model="column.name" />
+						<input type="text" placeholder="Column1" v-model="column.name" />
 					</div>
 					<h4>Column category:</h4>
 					<div class="categories">
@@ -110,11 +118,18 @@
 							{{category.name}}
 						</div>
 					</div>
-					<div class="button action" v-on:click="column.editing = false">Save column</div>
+					<div class="button" v-on:click="column.editing = false">Save column</div>
 				</div>
 			</div>
-			<div class="button" v-on:click="addNewColumn">Add column</div>
-			<hr/>
+			<div class="button" v-on:click="addColumn">Add column</div>
+		</div>
+		<div class="page" v-show="page == 'newModel'">
+			<div class="back" v-on:click="page = 'models'"><</div>
+			<h1>New Data model</h1>
+			<div class="input">
+				<label>Model name:</label>
+				<input type="text" placeholder="Data1" v-on:keyup.enter="saveNewModel" v-model="newModelName" />
+			</div>
 			<div class="action button" v-on:click="saveNewModel">Save Data model</div>
 		</div>
 	</div>

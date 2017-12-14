@@ -6,11 +6,9 @@ new Vue({
       models: [],
       categories: [],
       editingCategory: null,
+      editingModel: null,
       newCategoryName : "",
-      newModel: {
-        name: "",
-        columns: []
-      },
+      newModelName: "",
     };
   },
   methods: {
@@ -42,22 +40,33 @@ new Vue({
       this.saveCategories();
       this.editCategory(this.categories.length - 1);
     },
-    deleteModelConfirm: function(model){
-      var idx = this.models.indexOf(model);
-      this.models.splice(idx, 1);
+    deleteModelConfirm: function(modelidx){
+      this.models.splice(modelidx, 1);
       this.saveModels();
     },
     deleteModel: function(model){
       Vue.set(model, "confirmDelete", true);
     },
-    addNewColumn: function(){
-      this.newModel.columns.push({name : "NewColumn", category : "Empty"});
-      Vue.set(this.newModel.columns[this.newModel.columns.length - 1], "editing", true);
+    editModel: function(modelidx){
+      this.editingModel = modelidx;
+      this.page = "model";
+    },
+    addColumn: function(){
+      this.models[this.editingModel].columns.push({name: "", category: null, editing: true});
+    },
+    removeColumn: function(colidx){
+      this.models[this.editingModel].columns.splice(colidx, 1);
+    },
+    editColumn: function(column){
+      Vue.set(column, "editing", true);
     },
     saveNewModel: function(){
-      this.models.push(this.newModel);
+      this.models.push({
+        name: this.newModelName,
+        columns: []
+      });
       this.saveModels();
-      this.page = "models";
+      this.editModel(this.models.length -1);
     },
     saveCategories: function(){
       this.saveToLocalStorage("fdc_categories", this.categories);
@@ -78,16 +87,18 @@ new Vue({
   watch: {
     page: function(newValue, oldValue){
       if(oldValue == "newModel"){
-        this.newModel = {
-          name: "",
-          columns: []
-        };
+        this.newModelName = "";
+      }
+      if(oldValue == "model"){
+        this.saveModels();
+        this.editingModel = null;
       }
       if(oldValue == "newCategory"){
         this.newCategoryName = "";
       }
       if(oldValue == "category"){
         this.saveCategories();
+        this.editingCategory = null;
       }
     }
   },
