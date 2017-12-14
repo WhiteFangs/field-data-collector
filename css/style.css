@@ -1,0 +1,59 @@
+body{
+	font-family: Trebuchet, sans-serif;
+}
+
+#main {
+	display: none;
+}
+
+h1{
+	text-align: center;
+}
+
+.back{
+	position: absolute;
+	top: 1em;
+	left: 1em;
+	font-weight: bold;
+	font-family: Arial, sans-serif;
+	font-size: 1.5em;
+	cursor: pointer;
+}
+
+.segment{
+	background-color: lightblue;
+	padding: 1em;
+}
+
+.button{
+	padding: .5em;
+	margin: .5em;
+	border: 2px solid blue;
+	cursor: pointer;
+	background-color: white;
+}
+
+.button:focus, .button:hover, .button:active{
+	color: white;
+	background-color: blue;
+}
+
+.button.category{
+	border-color: green;
+}
+
+.button.category:focus,
+.button.category:hover,
+.button.category:active,
+.button.category.selected{
+	color: white;
+	background-color: green;
+}
+
+.button.action{
+	border-color: orange;
+}
+
+.button.action:focus,.button.action:hover,.button.action:active{
+	background-color: orange;
+}

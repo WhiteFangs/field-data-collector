@@ -4,12 +4,89 @@
 	<title>Field Data Collector</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<link rel="stylesheet" href="./style.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="./css/style.css" type="text/css" media="all" />
 	<script type="text/javascript" src="./js/vue.js"></script>
 </head>
 <body>
 	<div id="main">
+		<div class="page" v-show="page == 'menu'">
+			<h1>Field Data Collector</h1>
+			
+			<div class="bottom">
+				<div class="button" v-on:click="page = 'categories'">Categories</div>
+				<div class="button" v-on:click="page = 'models'">Data models</div>
+			</div>
+		</div>
 
+		<!-- CATEGORIES -->
+		<div class="page" v-show="page == 'categories'">
+			<div class="back" v-on:click="page = 'menu'"><</div>
+			<h1>Categories</h1>
+			<div class="action button" v-on:click="page = 'newCategory'">+ Add new category</div>
+			<hr/>
+			<div v-for="category in categories">
+				<div class="button">{{category.name}}</div>
+			</div>
+		</div>
+		<div class="page" v-show="page == 'newCategory'">
+			<div class="back" v-on:click="page = 'categories'"><</div>
+			<h1>New category</h1>
+			<div class="input">
+				<label>Category name:</label>
+				<input type="text" placeholder="Category1" v-model="newCategory.name" />
+			</div>
+			<h3>Items</h3>
+			<div class="" v-for="item in newCategory.items">
+				<div v-show="!item.editing">{{item.name}}</div>
+				<div class="segment" v-show="item.editing">
+					<div class="input">
+						<label>Item name:</label>
+						<input type="text" placeholder="Item1" v-model="item.name" />
+					</div>
+					<div class="button" v-on:click="item.editing = false">Save item</div>
+				</div>
+			</div>
+			<div class="button" v-on:click="addNewCategoryItem">Add new item</div>
+			<hr/>
+			<div class="action button" v-on:click="saveNewCategory">Save category</div>
+		</div>
+
+		<!-- MODELS -->
+		<div class="page" v-show="page == 'models'">
+			<div class="back" v-on:click="page = 'menu'"><</div>
+			<h1>Data models</h1>
+			<div class="action button" v-on:click="page = 'newModel'">+ Add new model</div>
+			<div v-for="model in models">
+				<div class="button">{{model.name}}</div>
+			</div>
+		</div>
+		<div class="page" v-show="page == 'newModel'">
+			<div class="back" v-on:click="page = 'models'"><</div>
+			<h1>New Data model</h1>
+			<div class="input">
+				<label>Model name:</label>
+				<input type="text" placeholder="Data1" v-model="newModel.name" />
+			</div>
+			<h3>Columns</h3>
+			<div class="" v-for="column in newModel.columns">
+				<div v-show="!column.editing">{{column.name}} ({{column.category}})</div>
+				<div class="segment" v-show="column.editing">
+					<div class="input">
+						<label>Column name:</label>
+						<input type="text" placeholder="Field1" v-model="column.name" />
+					</div>
+					<div class="categories">
+						<div v-for="category in categories" class="button category" v-bind:class="{'selected': column.category == category.name}"v-on:click="column.category = category.name">
+							{{category.name}}
+						</div>
+					</div>
+					<div class="button action" v-on:click="column.editing = false">Save column</div>
+				</div>
+			</div>
+			<div class="button" v-on:click="addNewColumn">Add column</div>
+			<hr/>
+			<div class="action button" v-on:click="saveNewModel">Save Data model</div>
+		</div>
 	</div>
 	<script type="text/javascript" src="./js/fieldDataCollector.js"></script>
 </body>
