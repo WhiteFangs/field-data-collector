@@ -20,6 +20,11 @@ h1{
 	cursor: pointer;
 }
 
+.row {
+	margin-top: .5em;
+	margin-bottom: .5em;
+}
+
 .segment{
 	background-color: lightblue;
 	padding: 1em;
@@ -31,6 +36,7 @@ h1{
 	border: 2px solid blue;
 	cursor: pointer;
 	background-color: white;
+	display: inline-block;
 }
 
 .button:focus, .button:hover, .button:active{
@@ -56,4 +62,8 @@ h1{
 
 .button.action:focus,.button.action:hover,.button.action:active{
 	background-color: orange;
+}
+
+.floatRight{
+	float: right;
 }

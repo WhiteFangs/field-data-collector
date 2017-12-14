@@ -24,7 +24,14 @@
 			<h1>Categories</h1>
 			<div class="action button" v-on:click="page = 'newCategory'">+ Add new category</div>
 			<hr/>
-			<div v-for="category in categories">
+			<div class="row" v-for="category in categories">
+				<div class="floatRight">
+					<div v-show="!category.confirmDelete" class="icon action button" v-on:click="deleteCategory(category)">❌</div>
+					<div v-show="category.confirmDelete">Delete?
+						<div class="icon action button" v-on:click="deleteCategoryConfirm(category)">Yes</div>
+						<div class="icon button" v-on:click="category.confirmDelete = false">No</div>
+					</div>
+				</div>
 				<div class="button">{{category.name}}</div>
 			</div>
 		</div>
@@ -36,7 +43,7 @@
 				<input type="text" placeholder="Category1" v-model="newCategory.name" />
 			</div>
 			<h3>Items</h3>
-			<div class="" v-for="item in newCategory.items">
+			<div class="row" v-for="item in newCategory.items">
 				<div v-show="!item.editing">{{item.name}}</div>
 				<div class="segment" v-show="item.editing">
 					<div class="input">
@@ -56,7 +63,14 @@
 			<div class="back" v-on:click="page = 'menu'"><</div>
 			<h1>Data models</h1>
 			<div class="action button" v-on:click="page = 'newModel'">+ Add new model</div>
-			<div v-for="model in models">
+			<div class="row" v-for="model in models">
+				<div class="floatRight">
+					<div v-show="!model.confirmDelete" class="icon action button" v-on:click="deleteModel(model)">❌</div>
+					<div v-show="model.confirmDelete">Delete?
+						<div class="icon action button" v-on:click="deleteModelConfirm(model)">Yes</div>
+						<div class="icon button" v-on:click="model.confirmDelete = false">No</div>
+					</div>
+				</div>
 				<div class="button">{{model.name}}</div>
 			</div>
 		</div>
@@ -68,7 +82,7 @@
 				<input type="text" placeholder="Data1" v-model="newModel.name" />
 			</div>
 			<h3>Columns</h3>
-			<div class="" v-for="column in newModel.columns">
+			<div class="row" v-for="column in newModel.columns">
 				<div v-show="!column.editing">{{column.name}} ({{column.category}})</div>
 				<div class="segment" v-show="column.editing">
 					<div class="input">

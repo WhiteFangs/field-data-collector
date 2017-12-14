@@ -16,6 +16,14 @@ new Vue({
     };
   },
   methods: {
+    deleteCategoryConfirm: function(category){
+      var idx = this.categories.indexOf(category);
+      this.categories.splice(idx, 1);
+      this.saveCategories();
+    },
+    deleteCategory: function(category){
+      Vue.set(category, "confirmDelete", true);
+    },
     addNewCategoryItem: function(){
       this.newCategory.items.push({name: "", editing: true});
     },
@@ -26,6 +34,14 @@ new Vue({
       });
       this.saveCategories();
       this.page = "categories";
+    },
+    deleteModelConfirm: function(model){
+      var idx = this.models.indexOf(model);
+      this.models.splice(idx, 1);
+      this.saveModels();
+    },
+    deleteModel: function(model){
+      Vue.set(model, "confirmDelete", true);
     },
     addNewColumn: function(){
       this.newModel.columns.push({name : "NewColumn", category : "Empty"});
