@@ -94,6 +94,10 @@ new Vue({
       this.saveCollects();
       this.subpage = 'menu';
     },
+    editData: function(idx, col){
+      this.currentDataIdx = idx;
+      this.subpage = "newData_" + (col < 2 ? 0 : col - 2);
+    },
     setItem: function(nb, item){
       this.currentData.splice(nb+2, 1, item.name);
     },

@@ -47,6 +47,18 @@ h4 {
 	margin-bottom: .5em;
 }
 
+td, th{
+	text-align: center;
+	border-bottom: 1px solid lightblue;
+	border-right: 1px dashed lightblue;
+	padding: .5em;
+	cursor: pointer;
+}
+
+tr:nth-child(2n+1) td {
+    background: aliceblue;
+}
+
 .back{
 	position: absolute;
 	top: 1em;

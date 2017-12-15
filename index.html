@@ -39,6 +39,7 @@
 				<div class="back" v-on:click="page = 'menu'">⬅️</div>
 				<h1>{{currentCollect.name}} ({{currentCollect.model}})</h1>
 				<div class="action button fluid" v-on:click="newData">➕ New data</div>
+				<div class="button fluid" v-on:click="subpage = 'review'">👀 Review data</div>
 			</div>
 			<!-- Collect new data -->
 			<div class="subpage" v-for="(column, nb) in currentModel.columns" v-show="subpage == 'newData_' + nb">
@@ -51,6 +52,27 @@
 					<div class="previous button" v-show="nb != 0" v-on:click="subpage = 'newData_' + (nb-1)">⬅️</div>
 					<div class="action button" v-on:click="saveData">✔️ Finish</div>
 				</div>
+			</div>
+			<!-- Collect review data -->
+			<div class="subpage" v-show="subpage == 'review'">
+				<div class="back" v-on:click="subpage = 'menu'">⬅️</div>
+				<h1>{{currentCollect.name}} ({{currentCollect.model}})</h1>
+				<table>
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Time</th>
+							<th v-for="column in currentModel.columns">
+								{{column.name}} ({{column.category}})
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(data, dataidx) in currentCollect.data">
+							<td v-for="(column, colidx) in data" v-on:click="editData(dataidx, colidx)">{{column}}</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 
