@@ -3,7 +3,7 @@ new Vue({
   data: function(){
     return {
       page: "menu",
-      subpage: -1,
+      subpage: "menu",
       models: [],
       categories: [],
       collects: [],
@@ -16,6 +16,7 @@ new Vue({
         name: ""
       },
       currentCollectIdx: null,
+      currentDataIdx: null,
     };
   },
   computed: {
@@ -25,14 +26,15 @@ new Vue({
       return this.collects[this.currentCollectIdx];
     },
     currentData: function(){
-      if(this.currentCollect == null)
+      if(this.currentCollect == null || this.currentDataIdx == null)
         return null;
-      return this.currentCollect.data[this.currentCollect.data.length - 1];
+      return this.currentCollect.data[this.currentDataIdx];
     },
     columnItems: function(){
-      if(this.currentCollect == null || this.subpage < 0)
+      if(this.currentCollect == null || !this.subpage.startsWith("newData_"))
         return [];
-      var column = this.currentCollect.model.columns[this.subpage];
+      var columnNumber = parseInt(this.subpage.replace("newData_", ""));
+      var column = this.currentCollect.model.columns[columnNumber];
       var category = this.categories.filter(function(c){return c.name == column.category})[0];
       return category != null ? category.items : [];
     }
@@ -65,7 +67,8 @@ new Vue({
       var modelLength = this.currentCollect.model.columns.length;
       newData = newData.concat(Array.apply(null, Array(modelLength)));
       this.currentCollect.data.push(newData);
-      this.subpage = 0;
+      this.currentDataIdx = this.currentCollect.data.length - 1;
+      this.subpage = "newData_0";
     },
     setItem: function(nb, item){
       this.currentData.splice(nb+2, 1, item.name);
