@@ -51,6 +51,7 @@ new Vue({
         model: model,
         data: []
       });
+      this.saveCollects();
       this.currentCollectIdx = this.collects.length - 1;
       this.page = "collect";
     },
@@ -69,6 +70,10 @@ new Vue({
       this.currentCollect.data.push(newData);
       this.currentDataIdx = this.currentCollect.data.length - 1;
       this.subpage = "newData_0";
+    },
+    saveData: function(){
+      this.saveCollects();
+      this.subpage = 'menu';
     },
     setItem: function(nb, item){
       this.currentData.splice(nb+2, 1, item.name);
@@ -132,6 +137,9 @@ new Vue({
       this.saveModels();
       this.editModel(this.models.length -1);
     },
+    saveCollects: function(){
+      this.saveToLocalStorage("fdc_collects", this.collects);
+    },
     saveCategories: function(){
       this.saveToLocalStorage("fdc_categories", this.categories);
     },
@@ -175,6 +183,7 @@ new Vue({
   mounted: function(){
     this.categories = this.getFromLocalStorage("fdc_categories");
     this.models = this.getFromLocalStorage("fdc_models");
+    this.collects = this.getFromLocalStorage("fdc_collects");
     document.getElementById("main").style.display = "block";
   }
 });

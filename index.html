@@ -38,7 +38,7 @@
 				<div class="bottom centered">
 					<div class="next button" v-show="nb < currentCollect.model.columns.length - 1" v-on:click="subpage = 'newData_' + (nb+1)">➡️</div>
 					<div class="previous button" v-show="nb != 0" v-on:click="subpage = 'newData_' + (nb-1)">⬅️</div>
-					<div class="action button" v-on:click="subpage = 'menu'">✔️ Finish</div>
+					<div class="action button" v-on:click="saveData">✔️ Finish</div>
 				</div>
 			</div>
 		</div>
