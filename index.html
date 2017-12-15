@@ -12,8 +12,19 @@
 		<div class="page" v-show="page == 'menu'">
 			<h1>Field Data Collector</h1>
 			<div class="action button fluid" v-on:click="page = 'newCollect'">📊 New collect</div>
-			<div class="row" v-for="collect in collects">
+			<hr/>
+			<div class="row" v-for="(collect, collectidx) in collects">
+				<div class="floatRight">
+					<div class="icon action button" v-show="!collect.confirmDelete" v-on:click="editCollect(collectidx)">✏️</div>
+					<div v-show="!collect.confirmDelete" class="icon action button" v-on:click="deleteCollect(collect)">❌</div>
+					<div v-show="collect.confirmDelete">Delete?
+						<div class="icon action button" v-on:click="deleteCollectConfirm(collectidx)">Yes</div>
+						<div class="icon button" v-on:click="collect.confirmDelete = false">No</div>
+					</div>
+				</div>
+				<div class="button" v-on:click="editCollect(collectidx)">
 					{{collect.name}} ({{collect.model}})
+				</div>
 			</div>
 			<div class="bottom">
 				<div class="button" v-on:click="page = 'categories'">📂 Categories</div>

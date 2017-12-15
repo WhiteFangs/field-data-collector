@@ -63,6 +63,17 @@ new Vue({
       this.currentCollectIdx = this.collects.length - 1;
       this.page = "collect";
     },
+    deleteCollectConfirm: function(collectidx){
+      this.collects.splice(collectidx, 1);
+      this.saveCollects();
+    },
+    deleteCollect: function(collect){
+      Vue.set(collect, "confirmDelete", true);
+    },
+    editCollect: function(idx){
+      this.currentCollectIdx = idx;
+      this.page = "collect";
+    },
     addZero: function(date){
       if(date.toString().length < 2)
         return "0" + date.toString();
