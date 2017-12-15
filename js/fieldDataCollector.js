@@ -12,6 +12,7 @@ new Vue({
     };
   },
   methods: {
+    // categories
     deleteCategoryConfirm: function(catidx){
       this.categories.splice(catidx, 1);
       this.saveCategories();
@@ -40,6 +41,7 @@ new Vue({
       this.saveCategories();
       this.editCategory(this.categories.length - 1);
     },
+    // models
     deleteModelConfirm: function(modelidx){
       this.models.splice(modelidx, 1);
       this.saveModels();
@@ -60,6 +62,7 @@ new Vue({
     editColumn: function(column){
       Vue.set(column, "editing", true);
     },
+    // storage
     saveNewModel: function(){
       this.models.push({
         name: this.newModelName,
