@@ -25,6 +25,13 @@ new Vue({
         return null;
       return this.collects[this.currentCollectIdx];
     },
+    currentModel: function(){
+      if(this.currentCollectIdx == null)
+        return null;
+      var modelName = this.collects[this.currentCollectIdx].model;
+      var model = this.models.filter(function(m){return m.name == modelName})[0];
+      return model != null ? model : {name: "_unknown_", columns: []};
+    },
     currentData: function(){
       if(this.currentCollect == null || this.currentDataIdx == null)
         return null;
@@ -34,7 +41,9 @@ new Vue({
       if(this.currentCollect == null || !this.subpage.startsWith("newData_"))
         return [];
       var columnNumber = parseInt(this.subpage.replace("newData_", ""));
-      var column = this.currentCollect.model.columns[columnNumber];
+      var column = this.currentModel.columns[columnNumber];
+      if(column == null)
+        return [];
       var category = this.categories.filter(function(c){return c.name == column.category})[0];
       return category != null ? category.items : [];
     }
@@ -43,12 +52,11 @@ new Vue({
     //collects
     startNewCollect: function(){
       var that = this;
-      var model = this.models.filter(function(m){return m.name == that.newCollect.model})[0];
-      if(model == null)
+      if(this.models.filter(function(m){return m.name == that.newCollect.model}).length == 0)
         return;
       this.collects.push({
         name: that.newCollect.name,
-        model: model,
+        model: that.newCollect.model,
         data: []
       });
       this.saveCollects();
@@ -65,7 +73,7 @@ new Vue({
       var date = this.addZero(d.getDate()) + "-" + this.addZero(d.getMonth() + 1) + "-" + d.getFullYear();
       var time = this.addZero(d.getHours()) + ":" + this.addZero(d.getMinutes()) + ":" + this.addZero(d.getSeconds());
       var newData = [date, time];
-      var modelLength = this.currentCollect.model.columns.length;
+      var modelLength = this.currentModel.columns.length;
       newData = newData.concat(Array.apply(null, Array(modelLength)));
       this.currentCollect.data.push(newData);
       this.currentDataIdx = this.currentCollect.data.length - 1;
