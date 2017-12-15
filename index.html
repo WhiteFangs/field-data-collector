@@ -11,11 +11,53 @@
 	<div id="main">
 		<div class="page" v-show="page == 'menu'">
 			<h1>Field Data Collector</h1>
-			
+			<div class="action button fluid" v-on:click="page = 'newCollect'">📊 New collect</div>
+			<div class="row" v-for="collect in collects">
+				{{collect.name}} ({{collect.model.name}})
+			</div>
 			<div class="bottom">
 				<div class="button" v-on:click="page = 'categories'">📂 Categories</div>
 				<div class="button" v-on:click="page = 'models'">📋 Data models</div>
 			</div>
+		</div>
+
+		<!-- COLLECT -->
+		<div class="page" v-show="page == 'collect'" v-if="currentCollect != null">
+			<!-- Collect page -->
+			<div class="subpage" v-show="subpage == -1">
+				<div class="back" v-on:click="page = 'menu'">⬅️</div>
+				<h1>{{currentCollect.name}} ({{currentCollect.model.name}})</h1>
+				<div class="action button fluid" v-on:click="newData">➕ New data</div>
+			</div>
+			<!-- Collect new data -->
+			<div class="subpage" v-for="(column, nb) in currentCollect.model.columns" v-show="subpage == nb">
+				<h1>{{column.name}} ({{column.category}})</h1>
+				<div class="choices">
+					<div v-for="item in columnItems" class="button category" v-bind:class="{'selected': currentData[nb+2] == item.name}" v-on:click="setItem(nb, item)">{{item.name}}</div>
+				</div>
+				<div class="bottom centered">
+					<div class="next button" v-show="subpage < currentCollect.model.columns.length - 1" v-on:click="subpage++">➡️</div>
+					<div class="previous button" v-show="subpage != 0" v-on:click="subpage--">⬅️</div>
+					<div class="action button" v-on:click="subpage = -1">✔️ Finish</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- NEW COLLECT -->
+		<div class="page" v-show="page == 'newCollect'">
+			<div class="back" v-on:click="page = 'menu'">⬅️</div>
+			<h1>New collect</h1>
+			<div class="input">
+				<label>Collect name:</label>
+				<input type="text" placeholder="Collect1"v-model="newCollect.name" />
+			</div>
+			<div class="input">
+				<label>Collect model:</label>
+				<select v-model="newCollect.model">
+					<option v-for="model in models" v-bind:value="model.name">{{model.name}}</option>
+				</select>
+			</div>
+			<div class="action button fluid" v-show="newCollect.name.trim().length > 0 && newCollect.model != null" v-on:click="startNewCollect">Start new collect</div>
 		</div>
 
 		<!-- CATEGORIES -->

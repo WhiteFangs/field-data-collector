@@ -3,15 +3,73 @@ new Vue({
   data: function(){
     return {
       page: "menu",
+      subpage: -1,
       models: [],
       categories: [],
+      collects: [],
       editingCategory: null,
       editingModel: null,
       newCategoryName : "",
       newModelName: "",
+      newCollect: {
+        model: null,
+        name: ""
+      },
+      currentCollectIdx: null,
     };
   },
+  computed: {
+    currentCollect: function(){
+      if(this.currentCollectIdx == null)
+        return null;
+      return this.collects[this.currentCollectIdx];
+    },
+    currentData: function(){
+      if(this.currentCollect == null)
+        return null;
+      return this.currentCollect.data[this.currentCollect.data.length - 1];
+    },
+    columnItems: function(){
+      if(this.currentCollect == null || this.subpage < 0)
+        return [];
+      var column = this.currentCollect.model.columns[this.subpage];
+      var category = this.categories.filter(function(c){return c.name == column.category})[0];
+      return category != null ? category.items : [];
+    }
+  },
   methods: {
+    //collects
+    startNewCollect: function(){
+      var that = this;
+      var model = this.models.filter(function(m){return m.name == that.newCollect.model})[0];
+      if(model == null)
+        return;
+      this.collects.push({
+        name: that.newCollect.name,
+        model: model,
+        data: []
+      });
+      this.currentCollectIdx = this.collects.length - 1;
+      this.page = "collect";
+    },
+    addZero: function(date){
+      if(date.toString().length < 2)
+        return "0" + date.toString();
+      return date.toString();
+    },
+    newData: function(){
+      var d = new Date();
+      var date = this.addZero(d.getDate()) + "-" + this.addZero(d.getMonth() + 1) + "-" + d.getFullYear();
+      var time = this.addZero(d.getHours()) + ":" + this.addZero(d.getMinutes()) + ":" + this.addZero(d.getSeconds());
+      var newData = [date, time];
+      var modelLength = this.currentCollect.model.columns.length;
+      newData = newData.concat(Array.apply(null, Array(modelLength)));
+      this.currentCollect.data.push(newData);
+      this.subpage = 0;
+    },
+    setItem: function(nb, item){
+      this.currentData.splice(nb+2, 1, item.name);
+    },
     // categories
     deleteCategoryConfirm: function(catidx){
       this.categories.splice(catidx, 1);
@@ -89,6 +147,12 @@ new Vue({
   },
   watch: {
     page: function(newValue, oldValue){
+      if(oldValue == "newCollect"){
+        this.newCollect = {
+          model: null,
+          name: ""
+        }
+      }
       if(oldValue == "newModel"){
         this.newModelName = "";
       }
