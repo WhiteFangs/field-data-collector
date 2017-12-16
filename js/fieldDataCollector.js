@@ -17,6 +17,7 @@ new Vue({
       },
       currentCollectIdx: null,
       currentDataIdx: null,
+      lastUsedItems: {}
     };
   },
   computed: {
@@ -91,6 +92,15 @@ new Vue({
       this.subpage = "newData_0";
     },
     saveData: function(){
+      var that = this;
+      this.currentData.slice(2).forEach(function(d, nb){
+        if(that.lastUsedItems[nb] == null)
+          Vue.set(that.lastUsedItems, nb, []);
+        if(that.lastUsedItems[nb].indexOf({name: d}) < 0)
+          that.lastUsedItems[nb].unshift({name: d});
+        if(that.lastUsedItems[nb].length > 3)
+          that.lastUsedItems[nb].splice(3, 1);
+      });
       this.saveCollects();
       this.subpage = 'menu';
     },
