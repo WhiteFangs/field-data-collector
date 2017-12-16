@@ -80,9 +80,12 @@ new Vue({
         return "0" + date.toString();
       return date.toString();
     },
+    getDate: function(d){
+      return this.addZero(d.getDate()) + "-" + this.addZero(d.getMonth() + 1) + "-" + d.getFullYear();
+    },
     newData: function(){
       var d = new Date();
-      var date = this.addZero(d.getDate()) + "-" + this.addZero(d.getMonth() + 1) + "-" + d.getFullYear();
+      var date = this.getDate(d);
       var time = this.addZero(d.getHours()) + ":" + this.addZero(d.getMinutes()) + ":" + this.addZero(d.getSeconds());
       var newData = [date, time];
       var modelLength = this.currentModel.columns.length;
@@ -162,6 +165,22 @@ new Vue({
       Vue.set(column, "editing", true);
     },
     // storage
+    downloadCollect: function(collect){
+      var lineArray = [];
+      collect.data.forEach(function (row, index) {
+        var line = row.join(",");
+        lineArray.push(index == 0 ? "data:text/csv;charset=utf-8," + line : line);
+      });
+      var csvContent = lineArray.join("\n");
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      var filename = "Collect_" + collect.name + "_" + this.getDate(new Date());
+      link.setAttribute("download", filename + ".csv");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    },
     saveNewModel: function(){
       this.models.push({
         name: this.newModelName,

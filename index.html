@@ -16,6 +16,7 @@
 			<div class="row" v-for="(collect, collectidx) in collects">
 				<div class="floatRight">
 					<div class="icon action button" v-show="!collect.confirmDelete" v-on:click="editCollect(collectidx)">✏️</div>
+					<div class="icon action button" v-show="!collect.confirmDelete" v-on:click="downloadCollect(collect)">📥</div>
 					<div v-show="!collect.confirmDelete" class="icon action button" v-on:click="deleteCollect(collect)">❌</div>
 					<div v-show="collect.confirmDelete">Delete?
 						<div class="icon action button" v-on:click="deleteCollectConfirm(collectidx)">Yes</div>
