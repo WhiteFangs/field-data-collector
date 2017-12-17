@@ -18,7 +18,7 @@
 					<div class="icon action button" v-show="!collect.confirmDelete" v-on:click="editCollect(collectidx)">✏️</div>
 					<div class="icon action button" v-show="!collect.confirmDelete" v-on:click="downloadCollect(collect)">📥</div>
 					<div v-show="!collect.confirmDelete" class="icon action button" v-on:click="deleteCollect(collect)">❌</div>
-					<div v-show="collect.confirmDelete">Delete?
+					<div v-show="collect.confirmDelete">Delete?<br/>
 						<div class="icon action button" v-on:click="deleteCollectConfirm(collectidx)">Yes</div>
 						<div class="icon button" v-on:click="collect.confirmDelete = false">No</div>
 					</div>
@@ -114,7 +114,7 @@
 					<div class="icon action button" v-show="!category.confirmDelete" v-on:click="editCategory(catidx)">✏️</div>
 					<div class="icon action button" v-show="!category.confirmDelete" v-on:click="downloadCategory(category)">📥</div>
 					<div v-show="!category.confirmDelete" class="icon action button" v-on:click="deleteCategory(category)">❌</div>
-					<div v-show="category.confirmDelete">Delete?
+					<div v-show="category.confirmDelete">Delete?<br/>
 						<div class="icon action button" v-on:click="deleteCategoryConfirm(catidx)">Yes</div>
 						<div class="icon button" v-on:click="category.confirmDelete = false">No</div>
 					</div>
@@ -149,7 +149,7 @@
 						<label>Item name:</label>
 						<input type="text" v-on:keyup.enter="saveItem(item)" placeholder="Item1" v-model="item.name" />
 					</div>
-					<div class="button fluid" v-on:click="saveItem(item)">Save item</div>
+					<div class="button fluid" v-on:click="saveItem(item)">💾 Save item</div>
 				</div>
 			</div>
 			<div class="button fluid" v-on:click="addItem">➕ Add new item</div>
@@ -165,8 +165,8 @@
 				<label>Category name:</label>
 				<input type="text" placeholder="Category1" v-on:keyup.enter="saveNewCategory" v-model="newCategoryName" />
 			</div>
-			<div class="action button fluid" v-on:click="saveNewCategory">Save category</div>
-			<div class="action button fluid" v-on:click="importCategory">Import from CSV file</div>
+			<div class="action button fluid" v-show="newCategoryName.trim().length > 0" v-on:click="saveNewCategory">💾 Save category</div>
+			<div class="action button fluid" v-show="newCategoryName.trim().length > 0" v-on:click="importCategory">📤 Import from CSV file</div>
 			<input class="hidden" id="importCategory" type="file" v-on:change="onImportCategory">
 			<div class="bottom">
 				<div class="previous button" v-on:click="page = 'categories'">⬅️</div>
@@ -182,7 +182,7 @@
 					<div class="icon action button" v-show="!model.confirmDelete" v-on:click="editModel(modelidx)">✏️</div>
 					<div class="icon action button" v-show="!model.confirmDelete" v-on:click="downloadModel(model)">📥</div>
 					<div v-show="!model.confirmDelete" class="icon action button" v-on:click="deleteModel(model)">❌</div>
-					<div v-show="model.confirmDelete">Delete?
+					<div v-show="model.confirmDelete">Delete?<br/>
 						<div class="icon action button" v-on:click="deleteModelConfirm(modelidx)">Yes</div>
 						<div class="icon button" v-on:click="model.confirmDelete = false">No</div>
 					</div>
@@ -223,7 +223,7 @@
 							{{category.name}}
 						</div>
 					</div>
-					<div class="button fluid" v-on:click="column.editing = false">Save column</div>
+					<div class="button fluid" v-on:click="column.editing = false">💾 Save column</div>
 				</div>
 			</div>
 			<div class="button fluid" v-on:click="addColumn">➕ Add column</div>
@@ -239,7 +239,7 @@
 				<label>Model name:</label>
 				<input type="text" placeholder="Data1" v-on:keyup.enter="saveNewModel" v-model="newModelName" />
 			</div>
-			<div class="action button fluid" v-on:click="saveNewModel">Save Data model</div>
+			<div class="action button fluid" v-on:click="saveNewModel">💾 Save Data model</div>
 			<div class="bottom">
 				<div class="previous button" v-on:click="page = 'models'">⬅️</div>
 			</div>
