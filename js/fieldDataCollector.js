@@ -195,11 +195,19 @@ new Vue({
         }).join(",");
         lineArray.push(line);
       });
+      this.downloadCSV(lineArray, "Collect_" + collect.name + "_" + this.getDate(new Date()));
+    },
+    downloadCategory: function(category){
+      var lineArray = category.items.map(function(i, index){
+        return index == 0 ? "data:text/csv;charset=utf-8,\uFEFF" + i.name : i.name;
+      });
+      this.downloadCSV(lineArray, "Category_" + category.name);
+    },
+    downloadCSV : function(lineArray, filename){
       var csvContent = lineArray.join("\n");
       var encodedUri = encodeURI(csvContent);
       var link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      var filename = "Collect_" + collect.name + "_" + this.getDate(new Date());
       link.setAttribute("download", filename + ".csv");
       document.body.appendChild(link);
       link.click();

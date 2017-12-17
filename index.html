@@ -112,6 +112,7 @@
 			<div class="row" v-for="(category, catidx) in categories">
 				<div class="floatRight">
 					<div class="icon action button" v-show="!category.confirmDelete" v-on:click="editCategory(catidx)">✏️</div>
+					<div class="icon action button" v-show="!category.confirmDelete" v-on:click="downloadCategory(category)">📥</div>
 					<div v-show="!category.confirmDelete" class="icon action button" v-on:click="deleteCategory(category)">❌</div>
 					<div v-show="category.confirmDelete">Delete?
 						<div class="icon action button" v-on:click="deleteCategoryConfirm(catidx)">Yes</div>
