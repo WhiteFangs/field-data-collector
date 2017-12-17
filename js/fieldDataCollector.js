@@ -135,6 +135,12 @@ new Vue({
     editItem: function(item){
       Vue.set(item, "editing", true);
     },
+    saveItem: function(item){
+      if(item.name.trim().length == 0)
+        return;
+      item.editing = false;
+      this.saveCategories();
+    },
     saveNewCategory: function(){
       this.categories.push({
         name: this.newCategoryName,

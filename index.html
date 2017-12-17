@@ -139,9 +139,9 @@
 				<div class="segment" v-show="item.editing">
 					<div class="input">
 						<label>Item name:</label>
-						<input type="text" v-on:keyup.enter="item.editing = false" placeholder="Item1" v-model="item.name" />
+						<input type="text" v-on:keyup.enter="saveItem(item)" placeholder="Item1" v-model="item.name" />
 					</div>
-					<div class="button fluid" v-on:click="item.editing = false">Save item</div>
+					<div class="button fluid" v-on:click="saveItem(item)">Save item</div>
 				</div>
 			</div>
 			<div class="button fluid" v-on:click="addItem">➕ Add new item</div>
