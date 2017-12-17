@@ -239,7 +239,9 @@
 				<label>Model name:</label>
 				<input type="text" placeholder="Data1" v-on:keyup.enter="saveNewModel" v-model="newModelName" />
 			</div>
-			<div class="action button fluid" v-on:click="saveNewModel">💾 Save Data model</div>
+			<div class="action button fluid" v-show="newModelName.trim().length > 0" v-on:click="saveNewModel">💾 Save Data model</div>
+			<div class="action button fluid" v-show="newModelName.trim().length > 0" v-on:click="importModel">📤 Import from CSV file</div>
+			<input class="hidden" id="importModel" type="file" v-on:change="onImportModel">
 			<div class="bottom">
 				<div class="previous button" v-on:click="page = 'models'">⬅️</div>
 			</div>

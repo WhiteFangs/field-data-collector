@@ -174,9 +174,11 @@ new Vue({
     },
     addColumn: function(){
       this.models[this.editingModel].columns.push({name: "", category: null, editing: true});
+      this.saveModels();
     },
     removeColumn: function(colidx){
       this.models[this.editingModel].columns.splice(colidx, 1);
+      this.saveModels();
     },
     editColumn: function(column){
       Vue.set(column, "editing", true);
@@ -203,10 +205,9 @@ new Vue({
       this.downloadCSV(lineArray, "Category_" + category.name);
     },
     downloadModel: function(model){
-      var lineArray = ["data:text/csv;charset=utf-8,\uFEFF" + "Name,Category"];
-      var lineArray = lineArray.concat(model.columns.map(function(c){
-        return c.name + "," + c.category;
-      }));
+      var lineArray = model.columns.map(function(c, i){
+        return i == 0 ? "data:text/csv;charset=utf-8,\uFEFF" + c.name + "," + c.category : c.name + "," + c.category;
+      });
       this.downloadCSV(lineArray, "Model_" + model.name);
     },
     downloadCSV : function(lineArray, filename){
@@ -229,13 +230,35 @@ new Vue({
       var that = this;
       this.readCSVFile(file, function(result){
         var lines = result.replace("\u00EF\u00BB\u00BF", "").split(/\r\n|\r|\n/gi)
-          .filter(function(l){return l.trim().length > 0});
+        .filter(function(l){return l.trim().length > 0});
         that.categories.push({
           name: that.newCategoryName,
           items: lines.map(function(l){return {name: l};})
         });
         that.saveCategories();
         that.editCategory(that.categories.length - 1);
+      });
+    },
+    importModel: function(){
+      document.getElementById("importModel").click();
+    },
+    onImportModel: function(){
+      if(document.getElementById("importModel").files.length == 0)
+        return;
+      var file = document.getElementById("importModel").files[0];
+      var that = this;
+      this.readCSVFile(file, function(result){
+        var lines = result.replace("\u00EF\u00BB\u00BF", "").split(/\r\n|\r|\n/gi)
+        .filter(function(l){return l.trim().length > 0});
+        that.models.push({
+          name: that.newModelName,
+          columns: lines.map(function(l){
+            var parts = l.split(",");
+            return {name: parts[0], category: parts[1]};
+          })
+        });
+        that.saveModels();
+        that.editModel(that.models.length -1);
       });
     },
     readCSVFile: function (file, cb) {
