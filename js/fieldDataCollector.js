@@ -183,10 +183,9 @@ new Vue({
     },
     // storage
     downloadCollect: function(collect){
-      var lineArray = [];
       var model = this.models.filter(function(m){return m.name == collect.model})[0];
       var headLine = "Date,Time," + model.columns.map(function(c){return c.name + " (" + c.category + ")";}).join(",");
-      lineArray.push("data:text/csv;charset=utf-8,\uFEFF" + headLine);
+      var lineArray = ["data:text/csv;charset=utf-8,\uFEFF" + headLine];
       collect.data.forEach(function (row, index) {
         var line = row.map(function(d, i){ 
           if(i < 2)
@@ -202,6 +201,13 @@ new Vue({
         return index == 0 ? "data:text/csv;charset=utf-8,\uFEFF" + i.name : i.name;
       });
       this.downloadCSV(lineArray, "Category_" + category.name);
+    },
+    downloadModel: function(model){
+      var lineArray = ["data:text/csv;charset=utf-8,\uFEFF" + "Name,Category"];
+      var lineArray = lineArray.concat(model.columns.map(function(c){
+        return c.name + "," + c.category;
+      }));
+      this.downloadCSV(lineArray, "Model_" + model.name);
     },
     downloadCSV : function(lineArray, filename){
       var csvContent = lineArray.join("\n");

@@ -178,6 +178,7 @@
 			<div class="row" v-for="(model, modelidx) in models">
 				<div class="floatRight">
 					<div class="icon action button" v-show="!model.confirmDelete" v-on:click="editModel(modelidx)">✏️</div>
+					<div class="icon action button" v-show="!model.confirmDelete" v-on:click="downloadModel(model)">📥</div>
 					<div v-show="!model.confirmDelete" class="icon action button" v-on:click="deleteModel(model)">❌</div>
 					<div v-show="model.confirmDelete">Delete?
 						<div class="icon action button" v-on:click="deleteModelConfirm(modelidx)">Yes</div>
