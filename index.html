@@ -37,10 +37,12 @@
 		<div class="page" v-show="page == 'collect'" v-if="currentCollect != null">
 			<!-- Collect page -->
 			<div class="subpage" v-show="subpage == 'menu'">
-				<div class="back" v-on:click="page = 'menu'">⬅️</div>
 				<h1>{{currentCollect.name}} ({{currentCollect.model}})</h1>
-				<div class="action button fluid" v-on:click="newData">➕ New data</div>
+				<div class="action button fluid" v-show="currentModel.columns.length > 0" v-on:click="newData">➕ New data</div>
 				<div class="button fluid" v-on:click="subpage = 'review'">👀 Review data</div>
+				<div class="bottom">
+					<div class="previous button" v-on:click="page = 'menu'">⬅️</div>
+				</div>
 			</div>
 			<!-- Collect new data -->
 			<div class="subpage" v-for="(column, nb) in currentModel.columns" v-show="subpage == 'newData_' + nb">
@@ -60,7 +62,6 @@
 			</div>
 			<!-- Collect review data -->
 			<div class="subpage" v-show="subpage == 'review'">
-				<div class="back" v-on:click="subpage = 'menu'">⬅️</div>
 				<h1>{{currentCollect.name}} ({{currentCollect.model}})</h1>
 				<table>
 					<thead>
@@ -78,12 +79,14 @@
 						</tr>
 					</tbody>
 				</table>
+				<div class="bottom">
+					<div class="previous button" v-on:click="subpage = 'menu'">⬅️</div>
+				</div>
 			</div>
 		</div>
 
 		<!-- NEW COLLECT -->
 		<div class="page" v-show="page == 'newCollect'">
-			<div class="back" v-on:click="page = 'menu'">⬅️</div>
 			<h1>New collect</h1>
 			<div class="input">
 				<label>Collect name:</label>
@@ -96,11 +99,13 @@
 				</select>
 			</div>
 			<div class="action button fluid" v-show="newCollect.name.trim().length > 0 && newCollect.model != null" v-on:click="startNewCollect">Start new collect</div>
+			<div class="bottom">
+				<div class="previous button" v-on:click="page = 'menu'">⬅️</div>
+			</div>
 		</div>
 
 		<!-- CATEGORIES -->
 		<div class="page" v-show="page == 'categories'">
-			<div class="back" v-on:click="page = 'menu'">⬅️</div>
 			<h1>Categories</h1>
 			<div class="action button fluid" v-on:click="page = 'newCategory'">➕ Add new category</div>
 			<hr/>
@@ -115,11 +120,13 @@
 				</div>
 				<div class="button" v-on:click="editCategory(catidx)">{{category.name}}</div>
 			</div>
+			<div class="bottom">
+				<div class="previous button" v-on:click="page = 'menu'">⬅️</div>
+			</div>
 		</div>
 
 		<!-- CATEGORY -->
 		<div class="page" v-show="page == 'category'" v-if="editingCategory != null">
-			<div class="back" v-on:click="page = 'categories'">⬅️</div>
 			<h1>Category: {{categories[editingCategory].name}}</h1>
 			<div class="input">
 				<label>Category name:</label>
@@ -145,22 +152,26 @@
 				</div>
 			</div>
 			<div class="button fluid" v-on:click="addItem">➕ Add new item</div>
+			<div class="bottom">
+				<div class="previous button" v-on:click="page = 'categories'">⬅️</div>
+			</div>
 		</div>
 
 		<!-- NEW CATEGORY -->
 		<div class="page" v-show="page == 'newCategory'">
-			<div class="back" v-on:click="page = 'categories'">⬅️</div>
 			<h1>New category</h1>
 			<div class="input">
 				<label>Category name:</label>
 				<input type="text" placeholder="Category1" v-on:keyup.enter="saveNewCategory" v-model="newCategoryName" />
 			</div>
 			<div class="action button fluid" v-on:click="saveNewCategory">Save category</div>
+			<div class="bottom">
+				<div class="previous button" v-on:click="page = 'categories'">⬅️</div>
+			</div>
 		</div>
 
 		<!-- MODELS -->
 		<div class="page" v-show="page == 'models'">
-			<div class="back" v-on:click="page = 'menu'">⬅️</div>
 			<h1>Data models</h1>
 			<div class="action button fluid" v-on:click="page = 'newModel'">➕ Add new model</div>
 			<div class="row" v-for="(model, modelidx) in models">
@@ -174,11 +185,13 @@
 				</div>
 				<div class="button" v-on:click="editModel(modelidx)">{{model.name}}</div>
 			</div>
+			<div class="bottom">
+				<div class="previous button" v-on:click="page = 'menu'">⬅️</div>
+			</div>
 		</div>
 
 		<!-- MODEL -->
 		<div class="page" v-show="page == 'model'" v-if="editingModel != null">
-			<div class="back" v-on:click="page = 'models'">⬅️</div>
 			<h1>Model: {{models[editingModel].name}}</h1>
 			<div class="input">
 				<label>Model name:</label>
@@ -210,17 +223,22 @@
 				</div>
 			</div>
 			<div class="button fluid" v-on:click="addColumn">➕ Add column</div>
+			<div class="bottom">
+				<div class="previous button" v-on:click="page = 'models'">⬅️</div>
+			</div>
 		</div>
 
 		<!-- NEW MODEL -->
 		<div class="page" v-show="page == 'newModel'">
-			<div class="back" v-on:click="page = 'models'">⬅️</div>
 			<h1>New Data model</h1>
 			<div class="input">
 				<label>Model name:</label>
 				<input type="text" placeholder="Data1" v-on:keyup.enter="saveNewModel" v-model="newModelName" />
 			</div>
 			<div class="action button fluid" v-on:click="saveNewModel">Save Data model</div>
+			<div class="bottom">
+				<div class="previous button" v-on:click="page = 'models'">⬅️</div>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript" src="./js/fieldDataCollector.js"></script>
