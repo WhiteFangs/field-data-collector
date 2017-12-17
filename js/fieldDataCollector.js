@@ -215,6 +215,10 @@ new Vue({
     }
   },
   watch: {
+    "newCollect.model": function(newValue){
+      if(newValue != null)
+        this.newCollect.name = newValue + "_" + this.getDate(new Date());
+    },
     page: function(newValue, oldValue){
       if(oldValue == "newCollect"){
         this.newCollect = {

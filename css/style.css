@@ -40,8 +40,7 @@ select{
 
 h1{
 	text-align: center;
-	margin-left: 2em;
-	margin-right: 2em;
+	word-wrap: break-word;
 }
 
 h4 {
@@ -65,6 +64,14 @@ tr:nth-child(2n+1) td {
 	margin-bottom: .5em;
 }
 
+.row .button{
+	word-wrap: break-word;
+}
+
+.row .button, .row .floatRight{
+	max-width: calc(50% - 1em);
+}
+
 .row .label{
 	padding: 1em;
 	padding-left: 0;
@@ -76,7 +83,6 @@ tr:nth-child(2n+1) td {
 
 .input input {
 	margin-top: 1em;
-	margin-bottom: 2em;
 	width: 100%;
 }
 
@@ -104,8 +110,14 @@ tr:nth-child(2n+1) td {
 }
 
 .segment .button{
+	margin-top: 2em;
 	margin-left: 0;
 	margin-right: 0;
+	max-width: unset;
+}
+
+.segment .button.category{
+	margin-top: 0;
 }
 
 .button.category{

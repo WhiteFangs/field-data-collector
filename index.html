@@ -89,14 +89,14 @@
 		<div class="page" v-show="page == 'newCollect'">
 			<h1>New collect</h1>
 			<div class="input">
-				<label>Collect name:</label>
-				<input type="text" placeholder="Collect1"v-model="newCollect.name" />
-			</div>
-			<div class="input">
 				<label>Collect model:</label>
 				<select v-model="newCollect.model">
 					<option v-for="model in models" v-bind:value="model.name">{{model.name}}</option>
 				</select>
+			</div>
+			<div class="input">
+				<label>Collect name:</label>
+				<input type="text" placeholder="Collect1" v-model="newCollect.name" />
 			</div>
 			<div class="action button fluid" v-show="newCollect.name.trim().length > 0 && newCollect.model != null" v-on:click="startNewCollect">Start new collect</div>
 			<div class="bottom">
