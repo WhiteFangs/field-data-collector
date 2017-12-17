@@ -219,6 +219,32 @@ new Vue({
       link.click();
       link.remove();
     },
+    importCategory: function(){
+      document.getElementById("importCategory").click();
+    },
+    onImportCategory: function(){
+      if(document.getElementById("importCategory").files.length == 0)
+        return;
+      var file = document.getElementById("importCategory").files[0];
+      var that = this;
+      this.readCSVFile(file, function(result){
+        var lines = result.replace("\u00EF\u00BB\u00BF", "").split(/\r\n|\r|\n/gi)
+          .filter(function(l){return l.trim().length > 0});
+        that.categories.push({
+          name: that.newCategoryName,
+          items: lines.map(function(l){return {name: l};})
+        });
+        that.saveCategories();
+        that.editCategory(that.categories.length - 1);
+      });
+    },
+    readCSVFile: function (file, cb) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        cb(reader.result);
+      };
+      reader.readAsBinaryString(file);
+    },
     saveNewModel: function(){
       this.models.push({
         name: this.newModelName,

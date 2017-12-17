@@ -4,6 +4,10 @@ body{
 	margin: 0;
 }
 
+.hidden{
+	display: none;
+}
+
 #main {
 	display: none;
 	margin: .5em;
