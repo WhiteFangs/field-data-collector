@@ -48,11 +48,11 @@
 			<div class="subpage" v-for="(column, nb) in currentModel.columns" v-show="subpage == 'newData_' + nb">
 				<h1>{{column.name}} ({{column.category}})</h1>
 				<div class="quick choices" v-if="lastUsedItems[nb] != null">
-					<div v-for="item in lastUsedItems[nb]" class="button category" v-bind:class="{'selected': currentData[nb+2] == item.name}" v-on:click="setItem(nb, item)">{{item.name}}</div>
+					<div v-for="item in lastUsedItems[nb]" class="button category" v-bind:class="{'selected': currentData[nb+2].indexOf(item.name) > -1}" v-on:click="setItem(nb, item)">{{item.name}}</div>
 					<hr/>
 				</div>
 				<div class="choices">
-					<div v-for="item in columnItems" class="button category" v-bind:class="{'selected': currentData[nb+2] == item.name}" v-on:click="setItem(nb, item)">{{item.name}}</div>
+					<div v-for="item in columnItems" class="button category" v-bind:class="{'selected': currentData[nb+2].indexOf(item.name) > -1}" v-on:click="setItem(nb, item)">{{item.name}}</div>
 				</div>
 				<div class="bottom centered">
 					<div class="next button" v-show="nb < currentModel.columns.length - 1" v-on:click="subpage = 'newData_' + (nb+1)">➡️</div>
@@ -75,7 +75,7 @@
 					</thead>
 					<tbody>
 						<tr v-for="(data, dataidx) in currentCollect.data">
-							<td v-for="(column, colidx) in data" v-on:click="editData(dataidx, colidx)">{{column}}</td>
+							<td v-for="(column, colidx) in data" v-on:click="editData(dataidx, colidx)">{{colidx < 2 ? column : column.join(';')}}</td>
 						</tr>
 					</tbody>
 				</table>

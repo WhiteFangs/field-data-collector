@@ -17,7 +17,8 @@ new Vue({
       },
       currentCollectIdx: null,
       currentDataIdx: null,
-      lastUsedItems: {}
+      lastUsedItems: {},
+      nbLastUsedItems : 5,
     };
   },
   computed: {
@@ -46,7 +47,7 @@ new Vue({
       if(column == null)
         return [];
       var category = this.categories.filter(function(c){return c.name == column.category})[0];
-      return category != null ? category.items : [];
+      return category != null ? category.items.filter(function(i){return i.name.trim().length > 0 }) : [];
     }
   },
   methods: {
@@ -89,7 +90,7 @@ new Vue({
       var time = this.addZero(d.getHours()) + ":" + this.addZero(d.getMinutes()) + ":" + this.addZero(d.getSeconds());
       var newData = [date, time];
       var modelLength = this.currentModel.columns.length;
-      newData = newData.concat(Array.apply(null, Array(modelLength)));
+      newData = newData.concat(Array.apply(null, Array(modelLength)).map(Array.prototype.valueOf, []));
       this.currentCollect.data.push(newData);
       this.currentDataIdx = this.currentCollect.data.length - 1;
       this.subpage = "newData_0";
@@ -97,12 +98,16 @@ new Vue({
     saveData: function(){
       var that = this;
       this.currentData.slice(2).forEach(function(d, nb){
-        if(that.lastUsedItems[nb] == null)
-          Vue.set(that.lastUsedItems, nb, []);
-        if(that.lastUsedItems[nb].indexOf({name: d}) < 0)
-          that.lastUsedItems[nb].unshift({name: d});
-        if(that.lastUsedItems[nb].length > 3)
-          that.lastUsedItems[nb].splice(3, 1);
+        if(d.length > 0){
+          if(that.lastUsedItems[nb] == null)
+            Vue.set(that.lastUsedItems, nb, []);
+          d.forEach(function(item){
+            if(that.lastUsedItems[nb].filter(function(u){return u.name == item;}).length == 0)
+              that.lastUsedItems[nb].unshift({name: item});
+          })
+          if(that.lastUsedItems[nb].length > that.nbLastUsedItems)
+            that.lastUsedItems[nb].splice(that.nbLastUsedItems, that.lastUsedItems[nb].length - that.nbLastUsedItems);
+        }
       });
       this.saveCollects();
       this.subpage = 'menu';
@@ -112,7 +117,13 @@ new Vue({
       this.subpage = "newData_" + (col < 2 ? 0 : col - 2);
     },
     setItem: function(nb, item){
-      this.currentData.splice(nb+2, 1, item.name);
+      var idx = this.currentData[nb+2].indexOf(item.name);
+      var arr = this.currentData[nb+2].slice(0);
+      if(idx < 0)
+        arr.push(item.name);
+      else
+        arr.splice(idx, 1, item.name);
+      this.currentData.splice(nb+2, 1, arr);
     },
     // categories
     deleteCategoryConfirm: function(catidx){
@@ -174,7 +185,11 @@ new Vue({
     downloadCollect: function(collect){
       var lineArray = [];
       collect.data.forEach(function (row, index) {
-        var line = row.join(",");
+        var line = row.map(function(d, i){ 
+          if(i < 2)
+            return d;
+          return d.join(";");
+        }).join(",");
         lineArray.push(index == 0 ? "data:text/csv;charset=utf-8," + line : line);
       });
       var csvContent = lineArray.join("\n");
