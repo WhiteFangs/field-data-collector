@@ -103,7 +103,7 @@ new Vue({
             Vue.set(that.lastUsedItems, nb, []);
           d.forEach(function(item){
             if(that.lastUsedItems[nb].filter(function(u){return u.name == item;}).length == 0)
-              that.lastUsedItems[nb].unshift({name: item});
+            that.lastUsedItems[nb].unshift({name: item});
           })
           if(that.lastUsedItems[nb].length > that.nbLastUsedItems)
             that.lastUsedItems[nb].splice(that.nbLastUsedItems, that.lastUsedItems[nb].length - that.nbLastUsedItems);
@@ -184,13 +184,16 @@ new Vue({
     // storage
     downloadCollect: function(collect){
       var lineArray = [];
+      var model = this.models.filter(function(m){return m.name == collect.model})[0];
+      var headLine = "Date,Time," + model.columns.map(function(c){return c.name + " (" + c.category + ")";}).join(",");
+      lineArray.push("data:text/csv;charset=utf-8,\uFEFF" + headLine);
       collect.data.forEach(function (row, index) {
         var line = row.map(function(d, i){ 
           if(i < 2)
             return d;
           return d.join(";");
         }).join(",");
-        lineArray.push(index == 0 ? "data:text/csv;charset=utf-8," + line : line);
+        lineArray.push(line);
       });
       var csvContent = lineArray.join("\n");
       var encodedUri = encodeURI(csvContent);
