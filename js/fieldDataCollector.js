@@ -122,7 +122,7 @@ new Vue({
       if(idx < 0)
         arr.push(item.name);
       else
-        arr.splice(idx, 1, item.name);
+        arr.splice(idx, 1);
       this.currentData.splice(nb+2, 1, arr);
     },
     // categories
