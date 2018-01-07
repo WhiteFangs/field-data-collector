@@ -4,6 +4,25 @@
 	<title>Field Data Collector</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link rel="manifest" href="./manifest.json">
+
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="application-name" content="Field Data Collector">
+	<meta name="apple-mobile-web-app-title" content="Field Data Collector">
+	<meta name="theme-color" content="#ffffff">
+	<meta name="msapplication-navbutton-color" content="#ffffff">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="msapplication-starturl" content="./index.html">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link rel="icon" sizes="48x48" href="./images/fdc_48.png">
+	<link rel="apple-touch-icon" sizes="48x48" href="./images/fdc_48.png">
+	<link rel="icon" sizes="96x96" href="./images/fdc_96.png">
+	<link rel="apple-touch-icon" sizes="96x96" href="./images/fdc_96.png">
+	<link rel="icon" sizes="192x192" href="./images/fdc_192.png">
+	<link rel="apple-touch-icon" sizes="192x192" href="./images/fdc_192.png">
 	<link rel="stylesheet" href="./css/style.css" type="text/css" media="all" />
 	<script type="text/javascript" src="./js/vue.js"></script>
 </head>
@@ -30,7 +49,7 @@
 			<div class="help">
 				<div v-show="categories.length == 0">
 					<h2>Welcome to Field Data Collector!</h2>
-					<p>Field Data Collector is a mobile web application to help researchers collect data on the field. It has many features like:
+					<p>Field Data Collector is a mobile application to help researchers collect data on the field. It has many features like:
 						<ul>
 							<li>🚀 Fast data input</li>
 							<li>💯 Multiple entries and multiple columns</li>
@@ -59,7 +78,8 @@
 					<h2>Perfect!</h2>
 					<p>Now you can start to collect your data! A collect stores the data based on a model. You are free to select multiple items for the same column, to skip a column if it's not relevant, to go back and edit or finish as soon as you want. Every change is saved!</p>
 					<p>You can also review your whole data and even edit previous data by clicking on the row or cell you want to change. And of course, download the collect.</p>
-					<p>All the data is saved in your browser, if you change browser or erase its memory, your data will be lost!</p>
+					<p><b>All the data is saved in your browser, if you change browser or erase its memory, your data will be lost!</b></p>
+					<p>To make sure that you always open this page with your usual browser, add it to your home screen through your browser's menu!</p>
 					<p>For more advice and help, click anytime on the Information button below.</p>
 				</div>
 			</div>
@@ -291,10 +311,11 @@
 			<div class="help">
 				<div>
 					<h2>General</h2>
-					<p>Field Data Collector is a mobile web application to help researchers collect data on the field.</p>
+					<p>Field Data Collector is a mobile application to help researchers collect data on the field.</p>
 					<p>To avoid any unexpected bug or behaviour, only use common letters and numbers when naming your objects (don't use accented letters, special characters...).</p>
 					<p>To keep the application fast and reactive, delete the collects that are already finished and downloaded.</p>
-					<p>All the data is saved in your browser, if you change browser or erase its memory, your data will be lost!</p>
+					<p><b>All the data is saved in your browser, if you change browser or erase its memory, your data will be lost!</b></p>
+					<p>To make sure that you always open this page with your usual browser, add it to your home screen through your browser's menu!</p>
 				</div>
 				<div>
 					<h2>Features</h2>
@@ -334,6 +355,7 @@
 					<p>For more information, visit the <a href="https://github.com/WhiteFangs/field-data-collector" target="_blank">Github page</a> of this project. You can contribute, report bugs or ask for features on the Issues page or by mail at loup[at]louphole[dot]com.</p>
 					<p>Apache License 2.0</p>
 					<p>Created by Bilgé Kimyonok. Copyright 2017.</p>
+					<p>Icon by Emoji One, CC BY-SA 4.0</p>
 					<p>Visit <a href="http://www.louphole.com" target="_blank">louphole.com</a> for more (fun, useful, absurd) projects.</p>
 				</div>
 			</div>

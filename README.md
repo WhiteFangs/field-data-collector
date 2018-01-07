@@ -1,5 +1,5 @@
 # Field Data Collector
-Field Data Collector is a mobile web application to help researchers collect data on the field.
+Field Data Collector is a mobile application to help researchers collect data on the field.
 
 ## Features
 - 🚀 Fast data input

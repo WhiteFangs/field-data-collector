@@ -1,0 +1,22 @@
+{
+  "name": "Field Data Collector",
+  "short_name": "Field Data Collector",
+  "lang": "en",
+  "start_url": "index.html",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "./images/fdc_48.png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "./images/fdc_96.png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "./images/fdc_192.png",
+      "sizes": "192x192"
+    }
+  ]
+}
