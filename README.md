@@ -6,6 +6,7 @@ Field Data Collector is a mobile application to help researchers collect data on
 - 💯 Multiple entries and multiple columns
 - ⏲️ Automatic storage of date and time on new data input
 - 🔄 Last entered data suggestion
+- 💬 Comments for every data
 - 📋 Easy setup with categories and models
 - 👀 Review and edition of data
 - ✏️ Dynamic edition of categories and models
