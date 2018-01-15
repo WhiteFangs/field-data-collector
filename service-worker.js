@@ -1,13 +1,14 @@
 var log = console.log.bind(console);
-var version = "1.0.0";
+var version = "1.0.1";
 var cacheName = "fdc-sw";
 var cache = cacheName + "-" + version;
 var filesToCache = [
-'./manifest.json',
-'./js/vue.js',
-'./js/fieldDataCollector.js',
-'./css/style.css',
-'./index.html',
+'manifest.json',
+'js/vue.js',
+'js/fieldDataCollector.js',
+'css/style.css',
+'index.html',
+'/'
 ];
 
 self.addEventListener("install", function(event) {
