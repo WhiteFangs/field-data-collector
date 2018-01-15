@@ -7,6 +7,7 @@ new Vue({
       models: [],
       categories: [],
       collects: [],
+      comments: "",
       editingCategory: null,
       editingModel: null,
       newCategoryName : "",
@@ -89,7 +90,7 @@ new Vue({
       var date = this.getDate(d);
       var time = this.addZero(d.getHours()) + ":" + this.addZero(d.getMinutes()) + ":" + this.addZero(d.getSeconds());
       var newData = [date, time];
-      var modelLength = this.currentModel.columns.length;
+      var modelLength = this.currentModel.columns.length + 1; // +1 for comments
       newData = newData.concat(Array.apply(null, Array(modelLength)).map(Array.prototype.valueOf, []));
       this.currentCollect.data.push(newData);
       this.currentDataIdx = this.currentCollect.data.length - 1;
@@ -97,7 +98,9 @@ new Vue({
     },
     saveData: function(){
       var that = this;
-      this.currentData.slice(2).forEach(function(d, nb){
+      this.currentData.splice(-1, 1, that.comments.replace(/,/gi, ";"));
+      that.comments = "";
+      this.currentData.slice(2).slice(0, -1).forEach(function(d, nb){
         if(d.length > 0){
           if(that.lastUsedItems[nb] == null)
             Vue.set(that.lastUsedItems, nb, []);
@@ -114,6 +117,7 @@ new Vue({
     },
     editData: function(idx, col){
       this.currentDataIdx = idx;
+      this.comments = this.currentData[this.currentData.length - 1];
       this.subpage = "newData_" + (col < 2 ? 0 : col - 2);
     },
     setItem: function(nb, item){
@@ -186,11 +190,11 @@ new Vue({
     // storage
     downloadCollect: function(collect){
       var model = this.models.filter(function(m){return m.name == collect.model})[0];
-      var headLine = "Date,Time," + model.columns.map(function(c){return c.name + " (" + c.category + ")";}).join(",");
+      var headLine = "Date,Time," + model.columns.map(function(c){return c.name + " (" + c.category + ")";}).join(",") + ",Comments";
       var lineArray = ["data:text/csv;charset=utf-8,\uFEFF" + headLine];
       collect.data.forEach(function (row, index) {
         var line = row.map(function(d, i){ 
-          if(i < 2)
+          if(i < 2 || i == row.length - 1)
             return d;
           return d.join(";");
         }).join(",");
@@ -301,6 +305,7 @@ new Vue({
         this.newCollect.name = newValue + "_" + this.getDate(new Date());
     },
     page: function(newValue, oldValue){
+      this.comments = "";
       if(oldValue == "newCollect"){
         this.newCollect = {
           model: null,

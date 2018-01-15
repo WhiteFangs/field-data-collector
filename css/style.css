@@ -46,6 +46,11 @@ select{
 	border: 1px solid lightblue;
 }
 
+textarea{
+	width: calc(100% - .5em);
+	height: 50vh;
+}
+
 h1{
 	text-align: center;
 	word-wrap: break-word;
