@@ -16,13 +16,13 @@ Field Data Collector is a mobile application to help researchers collect data on
 - 📶 Works offline
 
 ## Demo
-Try it [here](http://www.louphole.com/divers/field-data-collector) from your mobile phone!
+Try it [here](https://whitefangs.github.io/field-data-collector) from your mobile phone!
 
 ## Install 
 ### Iphone (with Safari) or Android phone (with Google Chrome) 
 If you have an Iphone or an Android phone with Google Chrome installed, you can easily install Field Data Collector by following these steps:
 
-1. Open [this page](http://www.louphole.com/divers/field-data-collector) with Safari on your Iphone or Google Chrome on your Android phone
+1. Open [this page](https://whitefangs.github.io/field-data-collector) with Safari on your Iphone or Google Chrome on your Android phone
 2. In the menu of your browser, click on "Add to Home Screen"
 3. Go to your Home screen and open the Field Data Collector application at least once with an internet connection
 4. You're good to go, even offline!
