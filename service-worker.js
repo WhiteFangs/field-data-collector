@@ -1,20 +1,20 @@
 var log = console.log.bind(console);
-var version = "1.0.1";
+var version = "1.0.2";
 var cacheName = "fdc-sw";
-var cache = cacheName + "-" + version;
+var cacheVersion = cacheName + "-" + version;
 var filesToCache = [
-'manifest.json',
-'js/vue.js',
-'js/fieldDataCollector.js',
-'css/style.css',
-'index.html',
-'/'
+'./manifest.json',
+'./js/vue.js',
+'./js/fieldDataCollector.js',
+'./css/style.css',
+'./index.html',
+'./',
 ];
 
 self.addEventListener("install", function(event) {
     log('[ServiceWorker] Installing....');
     event.waitUntil(caches
-        .open(cache)
+        .open(cacheVersion)
         .then(function(cache) {
             log('[ServiceWorker] Caching files');
             cache.addAll(filesToCache);
@@ -44,7 +44,7 @@ self.addEventListener('activate', function(event) {
         caches.keys()
         .then(function(keyList) {
                 Promise.all(keyList.map(function(key) {
-                    if (key !== cacheName) {
+                    if (key !== cacheVersion) {
                         log('[ServiceWorker] Removing old cache ', key);
                             return caches.delete(key);
                         }
