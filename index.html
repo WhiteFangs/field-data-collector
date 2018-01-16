@@ -129,7 +129,7 @@
 					<div v-for="item in columnItems" class="button category" v-bind:class="{'selected': currentData[nb+2].indexOf(item.name) > -1}" v-on:click="setItem(nb, item)">{{item.name}}</div>
 				</div>
 				<div class="bottom centered">
-					<div class="next button" v-on:click="subpage = 'newData_' + (nb+1)">➡️</div>
+					<div class="next button" v-on:click="subpage = 'newData_' + (nb+1)">{{nb < currentModel.columns.length-1 ? '➡️' : '💬'}}</div>
 					<div class="previous button" v-show="nb != 0" v-on:click="subpage = 'newData_' + (nb-1)">⬅️</div>
 					<div class="action button" v-on:click="saveData">✔️ Finish</div>
 				</div>
