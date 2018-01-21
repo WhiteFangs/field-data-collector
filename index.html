@@ -119,7 +119,7 @@
 				</div>
 			</div>
 			<!-- Collect new data -->
-			<div class="subpage" v-for="(column, nb) in currentModel.columns" v-show="subpage == 'newData_' + nb">
+			<div v-if="currentDataIdx != null" class="subpage" v-for="(column, nb) in currentModel.columns" v-show="subpage == 'newData_' + nb">
 				<h1>{{column.name}} ({{column.category}})</h1>
 				<div class="quick choices" v-if="lastUsedItems[nb] != null">
 					<div v-for="item in lastUsedItems[nb]" class="button category" v-bind:class="{'selected': currentData[nb+2].indexOf(item.name) > -1}" v-on:click="setItem(nb, item)">{{item.name}}</div>

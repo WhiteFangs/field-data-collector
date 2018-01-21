@@ -306,6 +306,10 @@ new Vue({
     },
     page: function(newValue, oldValue){
       this.comments = "";
+      if(oldValue == "collect"){
+        this.currentCollectIdx = null;
+        this.currentDataIdx = null;
+      }
       if(oldValue == "newCollect"){
         this.newCollect = {
           model: null,
