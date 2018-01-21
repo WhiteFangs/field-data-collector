@@ -121,7 +121,7 @@ new Vue({
     editData: function(idx, col){
       this.currentDataIdx = idx;
       this.comments = this.currentData[this.currentData.length - 1];
-      this.subpage = "newData_" + (col < 2 ? 0 : col - 2);
+      this.subpage = "newData_" + (col === 0 ? "date" : col === 1 ? "time" : col - 2);
     },
     setItem: function(nb, item){
       var idx = this.currentData[nb+2].indexOf(item.name);
