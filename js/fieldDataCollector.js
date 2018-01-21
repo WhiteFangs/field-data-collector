@@ -100,16 +100,19 @@ new Vue({
       var that = this;
       this.currentData.splice(-1, 1, that.comments.replace(/,/gi, ";"));
       that.comments = "";
+      if(that.lastUsedItems[this.currentCollect.name] == null)
+        Vue.set(that.lastUsedItems, this.currentCollect.name, {});
+      var lastUsedForCollect = that.lastUsedItems[this.currentCollect.name];
       this.currentData.slice(2).slice(0, -1).forEach(function(d, nb){
         if(d.length > 0){
-          if(that.lastUsedItems[nb] == null)
-            Vue.set(that.lastUsedItems, nb, []);
+          if(lastUsedForCollect[nb] == null)
+            Vue.set(lastUsedForCollect, nb, []);
           d.forEach(function(item){
-            if(that.lastUsedItems[nb].filter(function(u){return u.name == item;}).length == 0)
-            that.lastUsedItems[nb].unshift({name: item});
+            if(lastUsedForCollect[nb].filter(function(u){return u.name == item;}).length == 0)
+            lastUsedForCollect[nb].unshift({name: item});
           })
-          if(that.lastUsedItems[nb].length > that.nbLastUsedItems)
-            that.lastUsedItems[nb].splice(that.nbLastUsedItems, that.lastUsedItems[nb].length - that.nbLastUsedItems);
+          if(lastUsedForCollect[nb].length > that.nbLastUsedItems)
+            lastUsedForCollect[nb].splice(that.nbLastUsedItems, lastUsedForCollect[nb].length - that.nbLastUsedItems);
         }
       });
       this.saveCollects();

@@ -121,8 +121,8 @@
 			<!-- Collect new data -->
 			<div v-if="currentDataIdx != null" class="subpage" v-for="(column, nb) in currentModel.columns" v-show="subpage == 'newData_' + nb">
 				<h1>{{column.name}} ({{column.category}})</h1>
-				<div class="quick choices" v-if="lastUsedItems[nb] != null">
-					<div v-for="item in lastUsedItems[nb]" class="button category" v-bind:class="{'selected': currentData[nb+2].indexOf(item.name) > -1}" v-on:click="setItem(nb, item)">{{item.name}}</div>
+				<div class="quick choices" v-if="lastUsedItems[currentCollect.name] != null && lastUsedItems[currentCollect.name][nb] != null">
+					<div v-for="item in lastUsedItems[currentCollect.name][nb]" class="button category" v-bind:class="{'selected': currentData[nb+2].indexOf(item.name) > -1}" v-on:click="setItem(nb, item)">{{item.name}}</div>
 					<hr/>
 				</div>
 				<div class="choices">
