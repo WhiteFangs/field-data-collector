@@ -123,6 +123,10 @@ new Vue({
       this.comments = this.currentData[this.currentData.length - 1];
       this.subpage = "newData_" + (col === 0 ? "date" : col === 1 ? "time" : col - 2);
     },
+    deleteData: function(idx){
+      this.currentCollect.data.splice(idx, 1);
+      this.saveCollects();
+    },
     setItem: function(nb, item){
       var idx = this.currentData[nb+2].indexOf(item.name);
       var arr = this.currentData[nb+2].slice(0);

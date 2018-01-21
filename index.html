@@ -180,15 +180,17 @@
 								{{column.name}} ({{column.category}})
 							</th>
 							<th>Comments</th>
+							<th>Remove</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-for="(data, dataidx) in currentCollect.data">
 							<td v-for="(column, colidx) in data" v-on:click="editData(dataidx, colidx)">{{colidx < 2 || colidx == data.length -1 ? column : column.join(';')}}</td>
+							<td v-on:click="deleteData(dataidx)">❌</td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="bottom">
+				<div class="absolute bottom">
 					<div class="previous button" v-on:click="subpage = 'menu'">⬅️</div>
 				</div>
 			</div>
