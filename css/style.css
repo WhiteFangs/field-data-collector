@@ -146,10 +146,14 @@ tr:nth-child(2n+1) td {
 	margin-left: 0;
 }
 
-.button.category:hover,
-.button.category.selected{
+.button.category:hover{
 	color: white;
 	background-color: green;
+}
+
+.button.category.selected{
+	color: black;
+	background-color: orange;
 }
 
 .button.action{
