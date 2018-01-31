@@ -124,6 +124,7 @@ new Vue({
       this.subpage = "newData_" + (col === 0 ? "date" : col === 1 ? "time" : col - 2);
     },
     deleteData: function(idx){
+      this.currentDataIdx = null;
       this.currentCollect.data.splice(idx, 1);
       this.saveCollects();
     },
