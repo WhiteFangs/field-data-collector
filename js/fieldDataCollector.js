@@ -85,8 +85,9 @@ new Vue({
       var date = this.getDate(d);
       var time = this.addZero(d.getHours()) + ":" + this.addZero(d.getMinutes()) + ":" + this.addZero(d.getSeconds());
       var newData = [date, time];
-      var modelLength = this.currentModel.columns.length + 1; // +1 for comments
+      var modelLength = this.currentModel.columns.length;
       newData = newData.concat(Array.apply(null, Array(modelLength)).map(Array.prototype.valueOf, []));
+      newData.push(""); // added for comments
       this.currentCollect.data.push(newData);
       this.goToHash('collect', this.currentCollectIdx, 'newData_0', this.currentCollect.data.length - 1)
     },

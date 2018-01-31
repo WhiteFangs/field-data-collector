@@ -1,5 +1,5 @@
 var log = console.log.bind(console);
-var version = "1.1.5";
+var version = "1.1.6";
 var cacheName = "fdc-sw";
 var cacheVersion = cacheName + "-" + version;
 var filesToCache = [
