@@ -63,8 +63,7 @@ new Vue({
         data: []
       });
       this.saveCollects();
-      this.currentCollectIdx = this.collects.length - 1;
-      this.page = "collect";
+      this.goToHash("collect", this.collects.length - 1, "menu");
     },
     deleteCollectConfirm: function(collectidx){
       this.collects.splice(collectidx, 1);
@@ -72,10 +71,6 @@ new Vue({
     },
     deleteCollect: function(collect){
       Vue.set(collect, "confirmDelete", true);
-    },
-    editCollect: function(idx){
-      this.currentCollectIdx = idx;
-      this.page = "collect";
     },
     addZero: function(date){
       if(date.toString().length < 2)
@@ -93,8 +88,7 @@ new Vue({
       var modelLength = this.currentModel.columns.length + 1; // +1 for comments
       newData = newData.concat(Array.apply(null, Array(modelLength)).map(Array.prototype.valueOf, []));
       this.currentCollect.data.push(newData);
-      this.currentDataIdx = this.currentCollect.data.length - 1;
-      this.subpage = "newData_0";
+      this.goToHash('collect', this.currentCollectIdx, 'newData_0', this.currentCollect.data.length - 1)
     },
     saveData: function(){
       var that = this;
@@ -116,12 +110,11 @@ new Vue({
         }
       });
       this.saveCollects();
-      this.subpage = 'menu';
+      this.goToHash('collect', this.currentCollectIdx, 'menu');
     },
     editData: function(idx, col){
-      this.currentDataIdx = idx;
-      this.comments = this.currentData[this.currentData.length - 1];
-      this.subpage = "newData_" + (col === 0 ? "date" : col === 1 ? "time" : col - 2);
+      var subpage = "newData_" + (col === 0 ? "date" : col === 1 ? "time" : col - 2);
+      this.goToHash('collect', this.currentCollectIdx, subpage, idx);
     },
     deleteData: function(idx){
       this.currentDataIdx = null;
@@ -305,6 +298,60 @@ new Vue({
       if(item == null)
         return [];
       return JSON.parse(item);
+    },
+    onHashChange: function(){
+      var hash = location.hash.replace("#", "");
+      var parts = hash.split("/");
+      if(hash == "menu" || hash == "info" || 
+          hash == "newCollect" ||
+          hash == "categories" ||
+          hash == "newCategory" || 
+          hash == "models" || 
+          hash == "newModel"){
+        this.reInitNavigation();
+        this.page = hash;
+      }else if(hash.startsWith("collect") && parts.length > 1 && parseInt(parts[1]) < this.collects.length){
+        this.page = "collect";
+        this.currentCollectIdx = parseInt(parts[1]);
+        this.subpage = parts.length > 2 ? parts[2] : "menu";
+        if(parts.length > 3){
+          var dataIdx = parseInt(parts[3]);
+          if(dataIdx < this.currentCollect.data.length){
+            this.currentDataIdx = dataIdx;
+            this.comments = this.currentData[this.currentData.length - 1];
+          }else{
+            this.subpage = "menu";
+          }
+        }
+      }else if(hash.startsWith("category") && parts.length > 1 && parseInt(parts[1]) < this.categories.length){
+        this.page = "category";
+        this.editingCategory = parseInt(parts[1]);
+      }else if(hash.startsWith("model") && parts.length > 1 && parseInt(parts[1]) < this.models.length){
+        this.page = "model";
+        this.editingModel = parseInt(parts[1]);
+      }else{
+        this.reInitNavigation();
+      }
+    },
+    reInitNavigation: function(){
+        this.page = "menu";
+        this.subpage = "menu";
+        this.currentCollectIdx = null;
+        this.currentDataIdx = null;
+        this.editingCategory= null;
+        this.editingModel = null;
+    },
+    goToHash: function(part1, part2, part3, part4){
+      var hash = "";
+      if(part1 != null) // page
+        hash += part1;
+      if(part2 != null) // identifier
+        hash += "/" + part2.toString();
+      if(part3 != null) // subpage
+        hash += "/" + part3;
+      if(part4 != null) // data identifier
+        hash += "/" + part4.toString();
+      location.hash = hash;
     }
   },
   watch: {
@@ -345,6 +392,7 @@ new Vue({
     this.models = this.getFromLocalStorage("fdc_models");
     this.collects = this.getFromLocalStorage("fdc_collects");
     document.getElementById("main").style.display = "block";
+    window.addEventListener("hashchange", this.onHashChange);
   }
 });
 

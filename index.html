@@ -44,11 +44,11 @@
 	<div id="main">
 		<div class="page" v-show="page == 'menu'">
 			<h1>Field Data Collector</h1>
-			<div class="action button fluid" v-show="categories.length > 0 && models.length > 0" v-on:click="page = 'newCollect'">📊 New collect</div>
+			<div class="action button fluid" v-show="categories.length > 0 && models.length > 0" v-on:click="goToHash('newCollect')">📊 New collect</div>
 			<hr/>
 			<div class="row" v-for="(collect, collectidx) in collects">
 				<div class="floatRight">
-					<div class="icon action button" v-show="!collect.confirmDelete" v-on:click="editCollect(collectidx)">✏️</div>
+					<div class="icon action button" v-show="!collect.confirmDelete" v-on:click="goToHash('collect',collectidx)">✏️</div>
 					<div class="icon action button" v-show="!collect.confirmDelete" v-on:click="downloadCollect(collect)">📥</div>
 					<div v-show="!collect.confirmDelete" class="icon action button" v-on:click="deleteCollect(collect)">❌</div>
 					<div v-show="collect.confirmDelete">Delete?<br/>
@@ -56,7 +56,7 @@
 						<div class="icon button" v-on:click="collect.confirmDelete = false">No</div>
 					</div>
 				</div>
-				<div class="button" v-on:click="editCollect(collectidx)">
+				<div class="button" v-on:click="goToHash('collect',collectidx)">
 					{{collect.name}} ({{collect.model}})
 				</div>
 			</div>
@@ -99,11 +99,11 @@
 				</div>
 			</div>
 			<div class="helper">
-				<div class="button" v-on:click="page = 'info'">ℹ️ Information</div>
+				<div class="button" v-on:click="goToHash('info')">ℹ️ Information</div>
 			</div>
 			<div class="bottom">
-				<div class="button" v-on:click="page = 'categories'">📂 Categories</div>
-				<div class="button" v-show="categories.length > 0" v-on:click="page = 'models'">📋 Data models</div>
+				<div class="button" v-on:click="goToHash('categories')">📂 Categories</div>
+				<div class="button" v-show="categories.length > 0" v-on:click="goToHash('models')">📋 Data models</div>
 			</div>
 		</div>
 
@@ -113,9 +113,9 @@
 			<div class="subpage" v-show="subpage == 'menu'">
 				<h1>{{currentCollect.name}} ({{currentCollect.model}})</h1>
 				<div class="action button fluid" v-show="currentModel.columns.length > 0" v-on:click="newData">➕ New data</div>
-				<div class="button fluid" v-on:click="subpage = 'review'">👀 Review data</div>
+				<div class="button fluid" v-on:click="goToHash('collect',currentCollectIdx,'review')">👀 Review data</div>
 				<div class="bottom">
-					<div class="previous button" v-on:click="page = 'menu'">⬅️</div>
+					<div class="previous button" v-on:click="goToHash('menu')">⬅️</div>
 				</div>
 			</div>
 			<!-- Collect edit data date -->
@@ -125,7 +125,7 @@
 					<input type="text" placeholder="Date" v-model="currentData[0]"></textarea>
 				</div>
 				<div class="bottom centered">
-					<div class="next button" v-on:click="subpage = 'newData_time'">➡️</div>
+					<div class="next button" v-on:click="goToHash('collect',currentCollectIdx,'newData_time',currentDataIdx)">➡️</div>
 					<div class="action button" v-on:click="saveData">✔️ Finish</div>
 				</div>
 			</div>
@@ -136,8 +136,8 @@
 					<input type="text" placeholder="Time" v-model="currentData[1]"></textarea>
 				</div>
 				<div class="bottom centered">
-					<div class="next button" v-on:click="subpage = 'newData_0'">➡️</div>
-					<div class="previous button" v-on:click="subpage = 'newData_date'">⬅️</div>
+					<div class="next button" v-on:click="goToHash('collect',currentCollectIdx,'newData_0',currentDataIdx)">➡️</div>
+					<div class="previous button" v-on:click="goToHash('collect',currentCollectIdx,'newData_date',currentDataIdx)">⬅️</div>
 					<div class="action button" v-on:click="saveData">✔️ Finish</div>
 				</div>
 			</div>
@@ -152,8 +152,8 @@
 					<div v-for="item in columnItems" class="button category" v-bind:class="{'selected': currentData[nb+2].indexOf(item.name) > -1}" v-on:click="setItem(nb, item)">{{item.name}}</div>
 				</div>
 				<div class="bottom centered">
-					<div class="next button" v-on:click="subpage = 'newData_' + (nb+1)">{{nb < currentModel.columns.length-1 ? '➡️' : '💬'}}</div>
-					<div class="previous button" v-show="nb != 0" v-on:click="subpage = 'newData_' + (nb-1)">⬅️</div>
+					<div class="next button" v-on:click="goToHash('collect',currentCollectIdx,'newData_' + (nb+1),currentDataIdx)">{{nb < currentModel.columns.length-1 ? '➡️' : '💬'}}</div>
+					<div class="previous button" v-show="nb != 0" v-on:click="goToHash('collect',currentCollectIdx,'newData_' + (nb-1),currentDataIdx)">⬅️</div>
 					<div class="action button" v-on:click="saveData">✔️ Finish</div>
 				</div>
 			</div>
@@ -164,7 +164,7 @@
 					<textarea v-model="comments"></textarea>
 				</div>
 				<div class="bottom centered">
-					<div class="previous button" v-on:click="subpage = 'newData_' + (currentModel.columns.length - 1)">⬅️</div>
+					<div class="previous button" v-on:click="goToHash('collect',currentCollectIdx,'newData_' + (currentModel.columns.length - 1), currentDataIdx)">⬅️</div>
 					<div class="action button" v-on:click="saveData">✔️ Finish</div>
 				</div>
 			</div>
@@ -190,8 +190,8 @@
 						</tr>
 					</tbody>
 				</table>
-				<div class="absolute bottom">
-					<div class="previous button" v-on:click="subpage = 'menu'">⬅️</div>
+				<div class="bottom">
+					<div class="previous button" v-on:click="goToHash('collect',currentCollectIdx,'menu')">⬅️</div>
 				</div>
 			</div>
 		</div>
@@ -211,18 +211,18 @@
 			</div>
 			<div class="action button fluid" v-show="newCollect.name.trim().length > 0 && newCollect.model != null" v-on:click="startNewCollect">Start new collect</div>
 			<div class="bottom">
-				<div class="previous button" v-on:click="page = 'menu'">⬅️</div>
+				<div class="previous button" v-on:click="goToHash('menu')">⬅️</div>
 			</div>
 		</div>
 
 		<!-- CATEGORIES -->
 		<div class="page" v-show="page == 'categories'">
 			<h1>Categories</h1>
-			<div class="action button fluid" v-on:click="page = 'newCategory'">➕ Add new category</div>
+			<div class="action button fluid" v-on:click="goToHash('newCategory')">➕ Add new category</div>
 			<hr/>
 			<div class="row" v-for="(category, catidx) in categories">
 				<div class="floatRight">
-					<div class="icon action button" v-show="!category.confirmDelete" v-on:click="editCategory(catidx)">✏️</div>
+					<div class="icon action button" v-show="!category.confirmDelete" v-on:click="goToHash('category',catidx)">✏️</div>
 					<div class="icon action button" v-show="!category.confirmDelete" v-on:click="downloadCategory(category)">📥</div>
 					<div v-show="!category.confirmDelete" class="icon action button" v-on:click="deleteCategory(category)">❌</div>
 					<div v-show="category.confirmDelete">Delete?<br/>
@@ -230,10 +230,10 @@
 						<div class="icon button" v-on:click="category.confirmDelete = false">No</div>
 					</div>
 				</div>
-				<div class="button" v-on:click="editCategory(catidx)">{{category.name}}</div>
+				<div class="button" v-on:click="goToHash('category',catidx)">{{category.name}}</div>
 			</div>
 			<div class="bottom">
-				<div class="previous button" v-on:click="page = 'menu'">⬅️</div>
+				<div class="previous button" v-on:click="goToHash('menu')">⬅️</div>
 			</div>
 		</div>
 
@@ -265,7 +265,7 @@
 			</div>
 			<div class="button fluid" v-on:click="addItem">➕ Add new item</div>
 			<div class="bottom">
-				<div class="previous button" v-on:click="page = 'categories'">⬅️</div>
+				<div class="previous button" v-on:click="goToHash('categories')">⬅️</div>
 			</div>
 		</div>
 
@@ -280,17 +280,17 @@
 			<div class="action button fluid" v-show="newCategoryName.trim().length > 0" v-on:click="importCategory">📤 Import from CSV file</div>
 			<input class="hidden" id="importCategory" type="file" v-on:change="onImportCategory">
 			<div class="bottom">
-				<div class="previous button" v-on:click="page = 'categories'">⬅️</div>
+				<div class="previous button" v-on:click="goToHash('categories')">⬅️</div>
 			</div>
 		</div>
 
 		<!-- MODELS -->
 		<div class="page" v-show="page == 'models'">
 			<h1>Data models</h1>
-			<div class="action button fluid" v-on:click="page = 'newModel'">➕ Add new model</div>
+			<div class="action button fluid" v-on:click="goToHash('newModel')">➕ Add new model</div>
 			<div class="row" v-for="(model, modelidx) in models">
 				<div class="floatRight">
-					<div class="icon action button" v-show="!model.confirmDelete" v-on:click="editModel(modelidx)">✏️</div>
+					<div class="icon action button" v-show="!model.confirmDelete" v-on:click="goToHash('model',modelidx)">✏️</div>
 					<div class="icon action button" v-show="!model.confirmDelete" v-on:click="downloadModel(model)">📥</div>
 					<div v-show="!model.confirmDelete" class="icon action button" v-on:click="deleteModel(model)">❌</div>
 					<div v-show="model.confirmDelete">Delete?<br/>
@@ -298,10 +298,10 @@
 						<div class="icon button" v-on:click="model.confirmDelete = false">No</div>
 					</div>
 				</div>
-				<div class="button" v-on:click="editModel(modelidx)">{{model.name}}</div>
+				<div class="button" v-on:click="goToHash('model',modelidx)">{{model.name}}</div>
 			</div>
 			<div class="bottom">
-				<div class="previous button" v-on:click="page = 'menu'">⬅️</div>
+				<div class="previous button" v-on:click="goToHash('menu')">⬅️</div>
 			</div>
 		</div>
 
@@ -339,7 +339,7 @@
 			</div>
 			<div class="button fluid" v-on:click="addColumn">➕ Add column</div>
 			<div class="bottom">
-				<div class="previous button" v-on:click="page = 'models'">⬅️</div>
+				<div class="previous button" v-on:click="goToHash('models')">⬅️</div>
 			</div>
 		</div>
 
@@ -354,7 +354,7 @@
 			<div class="action button fluid" v-show="newModelName.trim().length > 0" v-on:click="importModel">📤 Import from CSV file</div>
 			<input class="hidden" id="importModel" type="file" v-on:change="onImportModel">
 			<div class="bottom">
-				<div class="previous button" v-on:click="page = 'models'">⬅️</div>
+				<div class="previous button" v-on:click="goToHash('models')">⬅️</div>
 			</div>
 		</div>
 
@@ -413,7 +413,7 @@
 				</div>
 			</div>
 			<div class="bottom">
-				<div class="previous button" v-on:click="page = 'menu'">⬅️</div>
+				<div class="previous button" v-on:click="goToHash('menu')">⬅️</div>
 			</div>
 		</div>
 	</div>

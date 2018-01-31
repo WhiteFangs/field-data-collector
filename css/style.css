@@ -27,10 +27,6 @@ body{
 	text-align: center;
 }
 
-.absolute.bottom{
-	position: absolute;
-}
-
 .bottom .next{
 	float: right;
 }
