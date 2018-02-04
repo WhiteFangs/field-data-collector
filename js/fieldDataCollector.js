@@ -139,6 +139,11 @@ new Vue({
       data[1] = time;
       this.currentCollect.data.push(data);
     },
+    cancelLastData: function(){
+      this.goToHash('collect', this.currentCollectIdx, 'menu')
+      this.currentCollect.data.splice(-1, 1);
+      this.saveCollects();
+    },
     setItem: function(nb, item){
       var idx = this.currentData[nb+2].indexOf(item.name);
       var arr = this.currentData[nb+2].slice(0);
@@ -339,8 +344,13 @@ new Vue({
             this.currentDataIdx = dataIdx;
             this.comments = this.currentData[this.currentData.length - 1];
           }else{
+            this.currentDataIdx = null;
+            this.comments = "";
             this.subpage = "menu";
           }
+        }else{
+          this.currentDataIdx = null;
+          this.comments = "";
         }
       }else if(hash.startsWith("category") && parts.length > 1 && parseInt(parts[1]) < this.categories.length){
         this.page = "category";
@@ -353,12 +363,12 @@ new Vue({
       }
     },
     reInitNavigation: function(){
-        this.page = "menu";
-        this.subpage = "menu";
-        this.currentCollectIdx = null;
-        this.currentDataIdx = null;
-        this.editingCategory= null;
-        this.editingModel = null;
+      this.page = "menu";
+      this.subpage = "menu";
+      this.currentCollectIdx = null;
+      this.currentDataIdx = null;
+      this.editingCategory= null;
+      this.editingModel = null;
     },
     goToHash: function(part1, part2, part3, part4){
       var hash = "";
