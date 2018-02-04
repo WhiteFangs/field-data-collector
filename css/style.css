@@ -160,6 +160,19 @@ tr:nth-child(2n+1) td {
 	background-color: orange;
 }
 
+td{
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+td.date {
+	white-space: nowrap;
+}
+
+td .button{
+	margin: 0;
+}
+
 .floatRight{
 	float: right;
 }

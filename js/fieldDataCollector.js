@@ -84,10 +84,13 @@ new Vue({
     getDate: function(d){
       return this.addZero(d.getDate()) + "-" + this.addZero(d.getMonth() + 1) + "-" + d.getFullYear();
     },
+    getTime: function(d){
+      return this.addZero(d.getHours()) + ":" + this.addZero(d.getMinutes()) + ":" + this.addZero(d.getSeconds());
+    },
     newData: function(){
       var d = new Date();
       var date = this.getDate(d);
-      var time = this.addZero(d.getHours()) + ":" + this.addZero(d.getMinutes()) + ":" + this.addZero(d.getSeconds());
+      var time = this.getTime(d);
       var newData = [date, time];
       var modelLength = this.currentModel.columns.length;
       newData = newData.concat(Array.apply(null, Array(modelLength)).map(Array.prototype.valueOf, []));
@@ -125,6 +128,16 @@ new Vue({
       this.currentDataIdx = null;
       this.currentCollect.data.splice(idx, 1);
       this.saveCollects();
+    },
+    duplicateData: function(idx){
+      var data = this.currentCollect.data[idx];
+      data = JSON.parse(JSON.stringify(data)); // ugly deep copy
+      var d = new Date();
+      var date = this.getDate(d);
+      var time = this.getTime(d);
+      data[0] = date;
+      data[1] = time;
+      this.currentCollect.data.push(data);
     },
     setItem: function(nb, item){
       var idx = this.currentData[nb+2].indexOf(item.name);

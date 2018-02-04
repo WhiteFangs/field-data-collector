@@ -174,7 +174,8 @@
 				<table>
 					<thead>
 						<tr>
-							<th>Remove</th>
+							<th></th>
+							<th></th>
 							<th>Date</th>
 							<th>Time</th>
 							<th v-for="column in currentModel.columns">
@@ -193,7 +194,8 @@
 									<span class="icon button" v-on:click="deletingDataIdx = null">No</span>
 								</span>
 							</td>
-							<td v-for="(column, colidx) in data" v-on:click="editData(reversedData.length-1-dataidx, colidx)">{{colidx < 2 || colidx == data.length -1 ? column : column.join(';')}}</td>
+							<td><span class="icon action button" v-on:click="duplicateData(reversedData.length-1-dataidx)">🔁</span></td>
+							<td v-for="(column, colidx) in data" v-on:click="editData(reversedData.length-1-dataidx, colidx)" v-bind:class="{'date': colidx == 0}">{{colidx < 2 || colidx == data.length -1 ? column : column.join(';')}}</td>
 						</tr>
 					</tbody>
 				</table>
