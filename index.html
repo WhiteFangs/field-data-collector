@@ -174,19 +174,26 @@
 				<table>
 					<thead>
 						<tr>
+							<th>Remove</th>
 							<th>Date</th>
 							<th>Time</th>
 							<th v-for="column in currentModel.columns">
 								{{column.name}} ({{column.category}})
 							</th>
 							<th>Comments</th>
-							<th>Remove</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-for="(data, dataidx) in currentCollect.data">
+							<td>
+								<span class="icon action button" v-show="deletingDataIdx !== dataidx" v-on:click="deletingDataIdx = dataidx">❌</span>
+								<span v-show="deletingDataIdx === dataidx">
+									Delete? 
+									<span class="icon action button" v-on:click="deleteData(dataidx)">Yes</span>
+									<span class="icon button" v-on:click="deletingDataIdx = null">No</span>
+								</span>
+							</td>
 							<td v-for="(column, colidx) in data" v-on:click="editData(dataidx, colidx)">{{colidx < 2 || colidx == data.length -1 ? column : column.join(';')}}</td>
-							<td v-on:click="deleteData(dataidx)">❌</td>
 						</tr>
 					</tbody>
 				</table>

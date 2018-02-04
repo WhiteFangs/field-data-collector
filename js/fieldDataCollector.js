@@ -18,6 +18,7 @@ new Vue({
       },
       currentCollectIdx: null,
       currentDataIdx: null,
+      deletingDataIdx: null,
       lastUsedItems: {},
       nbLastUsedItems : 5,
     };
@@ -301,6 +302,7 @@ new Vue({
       return JSON.parse(item);
     },
     onHashChange: function(){
+      this.deletingDataIdx = null;
       var hash = location.hash.replace("#", "");
       var parts = hash.split("/");
       if(hash == "menu" || hash == "info" || 
