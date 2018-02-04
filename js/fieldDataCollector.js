@@ -209,7 +209,7 @@ new Vue({
     // storage
     downloadCollect: function(collect){
       var model = this.models.filter(function(m){return m.name == collect.model})[0];
-      var headLine = "Date,Time," + model.columns.map(function(c){return c.name + " (" + c.category + ")";}).join(",") + ",Comments";
+      var headLine = "Date,Time," + model.columns.map(function(c){return c.name.length > 0 ? c.name : c.category;}).join(",") + ",Comments";
       var lineArray = ["data:text/csv;charset=utf-8,\uFEFF" + headLine];
       collect.data.forEach(function (row, index) {
         var line = row.map(function(d, i){ 
