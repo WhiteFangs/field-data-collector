@@ -184,16 +184,16 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(data, dataidx) in currentCollect.data">
+						<tr v-for="(data, dataidx) in reversedData">
 							<td>
 								<span class="icon action button" v-show="deletingDataIdx !== dataidx" v-on:click="deletingDataIdx = dataidx">❌</span>
 								<span v-show="deletingDataIdx === dataidx">
 									Delete? 
-									<span class="icon action button" v-on:click="deleteData(dataidx)">Yes</span>
+									<span class="icon action button" v-on:click="deleteData(reversedData.length-1-dataidx)">Yes</span>
 									<span class="icon button" v-on:click="deletingDataIdx = null">No</span>
 								</span>
 							</td>
-							<td v-for="(column, colidx) in data" v-on:click="editData(dataidx, colidx)">{{colidx < 2 || colidx == data.length -1 ? column : column.join(';')}}</td>
+							<td v-for="(column, colidx) in data" v-on:click="editData(reversedData.length-1-dataidx, colidx)">{{colidx < 2 || colidx == data.length -1 ? column : column.join(';')}}</td>
 						</tr>
 					</tbody>
 				</table>

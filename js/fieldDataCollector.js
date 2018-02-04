@@ -41,6 +41,9 @@ new Vue({
         return null;
       return this.currentCollect.data[this.currentDataIdx];
     },
+    reversedData: function(){
+      return this.currentCollect != null ? this.currentCollect.data.slice(0).reverse() : [];
+    },
     columnItems: function(){
       if(this.currentCollect == null || !this.subpage.startsWith("newData_"))
         return [];
