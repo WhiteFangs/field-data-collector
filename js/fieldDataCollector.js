@@ -125,7 +125,7 @@ new Vue({
       this.goToHash('collect', this.currentCollectIdx, subpage, idx);
     },
     deleteData: function(idx){
-      this.currentDataIdx = null;
+      this.deletingDataIdx = null;
       this.currentCollect.data.splice(idx, 1);
       this.saveCollects();
     },
@@ -138,6 +138,7 @@ new Vue({
       data[0] = date;
       data[1] = time;
       this.currentCollect.data.push(data);
+      this.saveCollects();
     },
     cancelLastData: function(){
       this.goToHash('collect', this.currentCollectIdx, 'menu')
