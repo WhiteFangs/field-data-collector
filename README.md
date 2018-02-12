@@ -44,9 +44,11 @@ If you followed the other instructions, you'll need to reinstall the application
 ## Contribute
 You can contribute, report bugs or ask for features on the Issues page or by mail at loup[at]louphole[dot]com.
 
+Field Data Collector is a [progressive web application](https://developers.google.com/web/progressive-web-apps/) powered by [Vue.js](https://vuejs.org/).
+
 ## License
 Apache License 2.0
 
-Created by Bilgé Kimyonok. Copyright 2017.
+Created by Bilgé Kimyonok. Copyright 2018.
 
 Icon by Emoji One, CC BY-SA 4.0
